@@ -18,6 +18,13 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float _minimumDistanceToFall = 1f;
     [SerializeField] private float _groundDirectionRayDistance = 0.2f;
     [SerializeField] private  LayerMask _groundLayer;
+
+    [Header("Scenario & Array")]
+    [Space(15)]
+
+    [SerializeField] private Transform[] _lanes;
+    private int _currentLaneIndex;
+
     
 
     private void Awake() 
@@ -28,15 +35,20 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        HandleMoveInput();
     }
 
 
     #region Player Action Methods
 
-    private void Walk()
+    private void HandleMoveInput()
     {
+        float moveX = _inputHandler.XWalkInput * _data.Speed * Time.deltaTime;
+        float moveY = 0;
+        float moveZ = transform.forward.z * _data.ForwardSpeed * Time.deltaTime;
+        Vector3 direction = new Vector3(moveX, moveY , moveZ);
 
+        _characterController.Move(direction);   
     }
 
     private void Slide()

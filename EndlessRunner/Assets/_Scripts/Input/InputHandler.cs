@@ -18,6 +18,7 @@ public class InputHandler : MonoBehaviour
     //Para o acesso das variaveis de movimento e ações do jogador, métodos get e set são criados para que o acesso de outros scripts seja possível da mesma forma que a torna mais dificil de ser editada por fora
     // Os métodos abaixo serão usados em outros scripts em vez de acessar diretamente as variaveis
     public Vector2 WalkInput {get {return _walkInput; } set { _walkInput = value;}}
+    public float XWalkInput {get { return _walkInput.x; } set { _walkInput.x = value; }}
     public bool IsJumpPressed {get { return _jumpPressed; } set { _jumpPressed = value ;}}
     public bool IsSliding {get { return _slidePressed; } set { _slidePressed = value; }}
     public bool IsUsePressed {get { return _usePressed;} set { _usePressed = value; }}

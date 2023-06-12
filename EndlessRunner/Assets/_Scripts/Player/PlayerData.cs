@@ -8,6 +8,7 @@ public class PlayerData : ScriptableObject
     [Header("Movement Parameters")]
     [Space(15)]
     [SerializeField] private float _speed;
+    [SerializeField] private float _forwardSpeed;
 
     [Header("Jump Parameters")]
     [Space(15)]
@@ -27,6 +28,7 @@ public class PlayerData : ScriptableObject
     #region GET & SET Methods
 
     public float Speed {get { return _speed; } set { _speed = value; }}
+    public float ForwardSpeed {get {return _forwardSpeed; } set {_forwardSpeed = value; }}
     
 
 
