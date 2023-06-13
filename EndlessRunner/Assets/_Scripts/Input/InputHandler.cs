@@ -13,6 +13,8 @@ public class InputHandler : MonoBehaviour
     private bool _jumpPressed;
     private bool _slidePressed;
     private bool _usePressed;
+    private bool _leftSide;
+    private bool _rightSide;
 
 
     //Para o acesso das variaveis de movimento e ações do jogador, métodos get e set são criados para que o acesso de outros scripts seja possível da mesma forma que a torna mais dificil de ser editada por fora
@@ -22,6 +24,9 @@ public class InputHandler : MonoBehaviour
     public bool IsJumpPressed {get { return _jumpPressed; } set { _jumpPressed = value ;}}
     public bool IsSliding {get { return _slidePressed; } set { _slidePressed = value; }}
     public bool IsUsePressed {get { return _usePressed;} set { _usePressed = value; }}
+    public bool LeftSide {get { return _leftSide;} set { _leftSide = value; }}
+    public bool RightSide {get { return _rightSide;} set { _rightSide = value; }}
+    
     private void Awake() 
     {
 
@@ -51,6 +56,22 @@ public class InputHandler : MonoBehaviour
     {
         //Quando a ação de pressionar ou clicar no botão será definido abaixo um valor para a varivavel criada
         _walkInput = ctx.ReadValue<Vector2>();
+
+        if(_walkInput.x < 0)
+        {
+            _rightSide = false;
+            _leftSide = true;
+        }
+        else if(_walkInput.x > 0)
+        {
+            _leftSide = false;
+            _rightSide = true;
+        }
+        else if(_walkInput.x == 0)
+        {
+            _leftSide = false;
+            _rightSide = false;
+        }
     }
 
     public void OnJump(InputAction.CallbackContext ctx)
