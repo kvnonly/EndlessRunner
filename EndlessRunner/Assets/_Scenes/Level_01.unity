@@ -448,8 +448,9 @@ GameObject:
   - component: {fileID: 587768670}
   - component: {fileID: 587768672}
   - component: {fileID: 587768671}
+  - component: {fileID: 587768673}
   m_Layer: 0
-  m_Name: Road Spawn Handler
+  m_Name: Spawn Handler
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -502,6 +503,30 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ca90e673e7be52e4d875af10bf416179, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &587768673
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 587768669}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0ea0fb25aef2f4b4ba2eb379127f6a8e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _initAmount: 6
+  _initStartZ: 61
+  _plotSize: 3
+  _xPosLeft: -18
+  _xPosRight: 26
+  _plots:
+  - {fileID: 273340782169849464, guid: fe9081e99821d64458350472d68d8c5b, type: 3}
+  - {fileID: 4726526866955429984, guid: 0bcf339aff12474408f4cc07635c58a0, type: 3}
+  - {fileID: 9208334837117327048, guid: d5a6387653359d44790d66fa5950b8eb, type: 3}
+  - {fileID: 5410095657539756468, guid: 796fd3168a788014d83ee3a960e7c6d4, type: 3}
+  - {fileID: 6833937781236700702, guid: e3fdf200c4bf947428c4ef4bd5f7b81c, type: 3}
+  - {fileID: 3820854248654067340, guid: 46b85cc9a88323a47a438b18843d9069, type: 3}
 --- !u!1 &713912553
 GameObject:
   m_ObjectHideFlags: 0
