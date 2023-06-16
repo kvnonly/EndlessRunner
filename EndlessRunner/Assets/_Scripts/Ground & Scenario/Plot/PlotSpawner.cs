@@ -4,68 +4,57 @@ using UnityEngine;
 
 public class PlotSpawner : MonoBehaviour
 {
-    [SerializeField] private int _initAmount = 5; // Quantidade inicial de casas a serem geradas
-    [SerializeField] private float _initStartZ = 61f; // Posição inicial em Z para a primeira casa
-    [SerializeField] private float _plotSize = 6f; // Tamanho de cada casa
-    [SerializeField] private float _xPosLeft = -18.61f; // Posição em X para a casa da esquerda
-    [SerializeField] private float _xPosRight = 26.76f; // Posição em X para a casa da direita
-    private float _lastZPos = 0f; // Posição Z da última casa gerada
-
     [SerializeField] private List<GameObject> _plots; // Lista de casas disponíveis para gerar
+    [SerializeField] private int _initAmount = 4; // Quantidade inicial de casas a serem geradas
+    [SerializeField] private float _plotSize = 30f; // Tamanho de cada casa
+    [SerializeField] private float _LeftXPos; // Posição X para a casa da esquerda
+    [SerializeField] private float _RightXPos; // Posição X para a casa da direita
+    [SerializeField] private GameObject _firstLeftPlot; // Primeira casa da esquerda
+    [SerializeField] private GameObject _firstRightPlot; // Primeira casa da direita
+    [SerializeField] private GameObject _parentObject; // Objeto-pai para as casas
+
+    private float _lastZPos; // Posição Z da última casa gerada
+    private GameObject _lastLeftPlot; // Referência para a última casa da esquerda gerada
+    private GameObject _lastRightPlot; // Referência para a última casa da direita gerada
 
     private void Start()
     {
-        PlotVerify(); // Verifica e gera as casas iniciais
-    }
+        // Posiciona a última Z com base na posição da primeira casa da esquerda
+        _lastZPos = _firstLeftPlot.transform.position.z;
 
-    private void PlotVerify()
-    {
+        // Define a primeira casa da direita como a última casa gerada
+        _lastRightPlot = _firstRightPlot;
+
         for (int i = 0; i < _initAmount; i++)
         {
-            SpawnPlot(); // Gera uma casa
+            SpawnPlot(); // Gera as casas iniciais
         }
     }
 
     public void SpawnPlot()
     {
-        int randomIndexLeft = GetRandomUniqueIndex(); // Obtém um índice aleatório único para a casa da esquerda
-        int randomIndexRight = GetRandomUniqueIndex(); // Obtém um índice aleatório único para a casa da direita
-        int randomIndexFront = GetRandomUniqueIndex(); // Obtém um índice aleatório único para a casa da frente
+        GameObject leftPlot;
+        GameObject rightPlot;
 
-        GameObject plotLeft = _plots[randomIndexLeft]; // Obtém a casa da esquerda a partir do índice
-        GameObject plotRight = _plots[randomIndexRight]; // Obtém a casa da direita a partir do índice
-        GameObject plotFront = _plots[randomIndexFront]; // Obtém a casa da frente a partir do índice
+        do
+        {
+            // Seleciona aleatoriamente as casas da lista
+            leftPlot = _plots[Random.Range(0, _plots.Count)];
+            rightPlot = _plots[Random.Range(0, _plots.Count)];
+        }
+        while (leftPlot == _lastLeftPlot || leftPlot == _lastRightPlot || rightPlot == _lastLeftPlot || rightPlot == _lastRightPlot);
+        // Repete o processo até que uma combinação não repetida seja encontrada
 
         float zPos = _lastZPos + _plotSize; // Calcula a nova posição Z para a próxima casa
 
-        Instantiate(plotLeft, new Vector3(_xPosLeft, 0, zPos), plotLeft.transform.rotation); // Instancia a casa da esquerda
-        Instantiate(plotRight, new Vector3(_xPosRight, 0, zPos), Quaternion.Euler(0, 180, 0)); // Instancia a casa da direita
-        Instantiate(plotFront, new Vector3(0, 0, zPos), plotFront.transform.rotation); // Instancia a casa da frente
+        // Instancia as casas da esquerda e direita como filhas do objeto-pai
+        GameObject spawnedLeftPlot = Instantiate(leftPlot, new Vector3(_LeftXPos, 0, zPos), leftPlot.transform.rotation);
+        GameObject spawnedRightPlot = Instantiate(rightPlot, new Vector3(_RightXPos, 0, zPos), Quaternion.Euler(0, 180, 0));
+        spawnedLeftPlot.transform.parent = _parentObject.transform;
+        spawnedRightPlot.transform.parent = _parentObject.transform;
 
-        _lastZPos = zPos; // Atualiza a posição Z da última casa gerada
+        _lastZPos += _plotSize; // Atualiza a posição Z da última casa gerada
+        _lastLeftPlot = leftPlot; // Armazena a referência para a última casa da esquerda gerada
+        _lastRightPlot = rightPlot; // Armazena a referência para a última casa da direita gerada
     }
-
-    private int GetRandomUniqueIndex()
-    {
-        if (_plots.Count == 0)
-        {
-            Debug.LogWarning("No plots available to spawn."); // Exibe um aviso de depuração se não houver casas disponíveis
-            return -1;
-        }
-
-        if (_plots.Count == 1)
-            return 0; // Retorna o único índice disponível se houver apenas uma casa
-
-        int randomIndex;
-        do
-        {
-            randomIndex = Random.Range(0, _plots.Count); // Obtém um índice aleatório dentro do intervalo de índices disponíveis
-        } while (randomIndex == lastUniqueIndex); // Repete o processo se o índice gerado for igual ao último índice único
-
-        lastUniqueIndex = randomIndex; // Armazena o último índice único gerado
-
-        return randomIndex; // Retorna o índice aleatório único
-    }
-
-    private int lastUniqueIndex = -1; // Índice da última casa gerada
 }

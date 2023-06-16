@@ -6,7 +6,7 @@ using System.Linq;
 public class SpawnRoad : MonoBehaviour
 {
     [SerializeField] private List<GameObject> _roads; // Lista de estradas disponíveis
-    private float _roadOffset = 23f; // Distância entre as estradas
+    private float _roadOffset = 24f; // Distância entre as estradas
 
     void Start()
     {
