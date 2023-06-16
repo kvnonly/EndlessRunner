@@ -34,52 +34,52 @@ public class PlayerController : MonoBehaviour
     }
 
     #region Player Action Methods
-private void Walk()
-{
-    if (_inputHandler.RightSide)
+    private void Walk()
     {
-        if (!_isMovingRight && _currentLaneIndex < _numLanes - 1)
+        if (_inputHandler.RightSide)
         {
-            _currentLaneIndex++;
-            _isMovingRight = true;
+            if (!_isMovingRight && _currentLaneIndex < _numLanes - 1)
+            {
+                _currentLaneIndex++;
+                _isMovingRight = true;
+                _isMovingLeft = false;
+            }
+            else if (!_isMovingRight && _currentLaneIndex >= _numLanes - 1)
+            {
+                // O personagem está na extremidade direita e tentou se mover novamente para a direita
+                TakeDamage();
+            }
+        }
+        else if (_inputHandler.LeftSide)
+        {
+            if (!_isMovingLeft && _currentLaneIndex > 0)
+            {
+                _currentLaneIndex--;
+                _isMovingLeft = true;
+                _isMovingRight = false;
+            }
+            else if (!_isMovingLeft && _currentLaneIndex <= 0)
+            {
+                // O personagem está na extremidade esquerda e tentou se mover novamente para a esquerda
+                TakeDamage();
+            }
+        }
+        else
+        {
+            _isMovingRight = false;
             _isMovingLeft = false;
         }
-        else if (!_isMovingRight && _currentLaneIndex >= _numLanes - 1)
-        {
-            // O personagem está na extremidade direita e tentou se mover novamente para a direita
-            TakeDamage();
-        }
-    }
-    else if (_inputHandler.LeftSide)
-    {
-        if (!_isMovingLeft && _currentLaneIndex > 0)
-        {
-            _currentLaneIndex--;
-            _isMovingLeft = true;
-            _isMovingRight = false;
-        }
-        else if (!_isMovingLeft && _currentLaneIndex <= 0)
-        {
-            // O personagem está na extremidade esquerda e tentou se mover novamente para a esquerda
-            TakeDamage();
-        }
-    }
-    else
-    {
-        _isMovingRight = false;
-        _isMovingLeft = false;
-    }
 
-    // Calcula a posição alvo do personagem considerando o movimento para frente
-    Vector3 targetPosition = transform.position + transform.forward * _data.ForwardSpeed * Time.deltaTime;
+        // Calcula a posição alvo do personagem considerando o movimento para frente
+        Vector3 targetPosition = transform.position + transform.forward * _data.ForwardSpeed * Time.deltaTime;
 
-    // Calcula a nova posição X com base no índice da pista e na largura das ruas
-    float targetX = _currentLaneIndex * _laneWidth;
-    targetPosition.x = Mathf.Lerp(transform.position.x, targetX, _data.LateralSpeed * Time.deltaTime);
+        // Calcula a nova posição X com base no índice da pista e na largura das ruas
+        float targetX = _currentLaneIndex * _laneWidth;
+        targetPosition.x = Mathf.Lerp(transform.position.x, targetX, _data.LateralSpeed * Time.deltaTime);
 
-    // Move o personagem para a posição alvo utilizando o CharacterController
-    _characterController.Move(targetPosition - transform.position);
-}
+        // Move o personagem para a posição alvo utilizando o CharacterController
+        _characterController.Move(targetPosition - transform.position);
+    }
 
 
     private void Slide()
