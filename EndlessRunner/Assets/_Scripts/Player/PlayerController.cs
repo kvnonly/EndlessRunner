@@ -22,12 +22,12 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private GameObject _rightFoot;
     [SerializeField] private Vector3 _rightFootOffset;
 
-    [Header("Roads and Repetition")]
+    [Header("Roads and Repetition Parameters")]
     [Space(15)]
     [SerializeField] private float _laneWidth;
     [SerializeField] private int _numLanes;
 
-    [Header("Roads and Repetition")]
+    [Header("Slide Parameters")]
     [Space(15)]
     [SerializeField] private float _originalCharacterControllerCenter;
     [SerializeField] private float _originalCharacterControllerHeight;

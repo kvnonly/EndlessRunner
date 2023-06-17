@@ -11,7 +11,8 @@ public class PlotSpawner : MonoBehaviour
     [SerializeField] private float _RightXPos; // Posição X para a casa da direita
     [SerializeField] private GameObject _firstLeftPlot; // Primeira casa da esquerda
     [SerializeField] private GameObject _firstRightPlot; // Primeira casa da direita
-    [SerializeField] private GameObject _parentObject; // Objeto-pai para as casas
+    [SerializeField] private GameObject _leftPlotParentObject; // Objeto-pai para as casas
+    [SerializeField] private GameObject _rightPlotParentObject; // Objeto-pai para as casas
     [SerializeField] private float _safeZone = 100f; // Zona segura antes de destruir as casas ultrapassadas
 
     private float _lastZPos; // Posição Z da última casa gerada
@@ -37,6 +38,7 @@ public class PlotSpawner : MonoBehaviour
         // Verifica se a posição Z do personagem ultrapassou a zona segura
         if (transform.position.z > _lastZPos - _safeZone)
         {
+            Debug.Log("O método no update ta funcionando");
             DestroyOldPlots(); // Destroi as casas ultrapassadas
         }
     }
@@ -59,9 +61,10 @@ public class PlotSpawner : MonoBehaviour
 
         // Instancia as casas da esquerda e direita como filhas do objeto-pai
         GameObject spawnedLeftPlot = Instantiate(leftPlot, new Vector3(_LeftXPos, 0, zPos), leftPlot.transform.rotation);
+        spawnedLeftPlot.transform.parent = _leftPlotParentObject.transform;
+
         GameObject spawnedRightPlot = Instantiate(rightPlot, new Vector3(_RightXPos, 0, zPos), Quaternion.Euler(0, 180, 0));
-        spawnedLeftPlot.transform.parent = _parentObject.transform;
-        spawnedRightPlot.transform.parent = _parentObject.transform;
+        spawnedRightPlot.transform.parent = _rightPlotParentObject.transform;
 
         _lastZPos += _plotSize; // Atualiza a posição Z da última casa gerada
         _lastLeftPlot = leftPlot; // Armazena a referência para a última casa da esquerda gerada
@@ -75,19 +78,33 @@ private void DestroyOldPlots()
 
     Debug.Log("DestroyOldPlots: Last Plot Z: " + lastPlotZ);
 
-    // Percorre todas as casas filhas do objeto-pai
-    foreach (Transform child in _parentObject.transform)
+    // Percorre todas as casas filhas do objeto-pai da esquerda
+    foreach (Transform child in _leftPlotParentObject.transform)
     {
         Debug.Log("DestroyOldPlots: Child Position Z: " + child.position.z);
 
         // Verifica se a posição Z da casa é menor que a posição Z da última casa gerada menos a zona segura
         if (child.position.z < lastPlotZ - _safeZone)
         {
-            Debug.Log("DestroyOldPlots: Destroying Plot");
+            Debug.Log("DestroyOldPlots: Destroying Left Plot");
+            Destroy(child.gameObject); // Destrói a casa ultrapassada
+        }
+    }
+
+    // Percorre todas as casas filhas do objeto-pai da direita
+    foreach (Transform child in _rightPlotParentObject.transform)
+    {
+        Debug.Log("DestroyOldPlots: Child Position Z: " + child.position.z);
+
+        // Verifica se a posição Z da casa é menor que a posição Z da última casa gerada menos a zona segura
+        if (child.position.z < lastPlotZ - _safeZone)
+        {
+            Debug.Log("DestroyOldPlots: Destroying Right Plot");
             Destroy(child.gameObject); // Destrói a casa ultrapassada
         }
     }
 }
+
 
 
 
