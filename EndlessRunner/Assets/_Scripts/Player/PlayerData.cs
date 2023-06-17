@@ -16,7 +16,7 @@ public class PlayerData : ScriptableObject
 
     [Header("Slide Parameters")]
     [Space(15)]
-    [SerializeField] private float _slideSpeed;
+    [SerializeField] private float _slideSpeedMultiplier;
 
 
     [Header("Gravity Parameters")]
@@ -29,6 +29,14 @@ public class PlayerData : ScriptableObject
 
     public float LateralSpeed {get { return _lateralSpeed; } set { _lateralSpeed = value; }}
     public float ForwardSpeed {get {return _forwardSpeed; } set {_forwardSpeed = value; }}
+
+    public float GravityScale {get { return _gravityScale; } set { _gravityScale = value; }}
+    public float GravityMultiplier {get { return _gravityMultiplier; } set { _gravityMultiplier = value; }}
+
+    public float JumpForce {get { return _jumpForce; } set { _jumpForce = value; }}
+    
+
+    public float SlideSpeedMultiplier {get { return _slideSpeedMultiplier; } set { _slideSpeedMultiplier = value; }}
     
 
 

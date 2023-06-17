@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _lateralSpeed: 5
   _forwardSpeed: 5
-  _jumpForce: 0
-  _slideSpeed: 0
-  _gravityScale: 0
-  _gravityMultiplier: 0
+  _jumpForce: 8
+  _slideSpeedMultiplier: 5
+  _gravityScale: 2
+  _gravityMultiplier: -1

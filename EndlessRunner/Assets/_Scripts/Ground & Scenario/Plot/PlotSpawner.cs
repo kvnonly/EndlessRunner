@@ -12,6 +12,7 @@ public class PlotSpawner : MonoBehaviour
     [SerializeField] private GameObject _firstLeftPlot; // Primeira casa da esquerda
     [SerializeField] private GameObject _firstRightPlot; // Primeira casa da direita
     [SerializeField] private GameObject _parentObject; // Objeto-pai para as casas
+    [SerializeField] private float _safeZone = 100f; // Zona segura antes de destruir as casas ultrapassadas
 
     private float _lastZPos; // Posição Z da última casa gerada
     private GameObject _lastLeftPlot; // Referência para a última casa da esquerda gerada
@@ -28,6 +29,15 @@ public class PlotSpawner : MonoBehaviour
         for (int i = 0; i < _initAmount; i++)
         {
             SpawnPlot(); // Gera as casas iniciais
+        }
+    }
+
+    private void Update()
+    {
+        // Verifica se a posição Z do personagem ultrapassou a zona segura
+        if (transform.position.z > _lastZPos - _safeZone)
+        {
+            DestroyOldPlots(); // Destroi as casas ultrapassadas
         }
     }
 
@@ -57,4 +67,28 @@ public class PlotSpawner : MonoBehaviour
         _lastLeftPlot = leftPlot; // Armazena a referência para a última casa da esquerda gerada
         _lastRightPlot = rightPlot; // Armazena a referência para a última casa da direita gerada
     }
+
+private void DestroyOldPlots()
+{
+    // Obtém a posição Z da última casa gerada
+    float lastPlotZ = _lastZPos - _plotSize;
+
+    Debug.Log("DestroyOldPlots: Last Plot Z: " + lastPlotZ);
+
+    // Percorre todas as casas filhas do objeto-pai
+    foreach (Transform child in _parentObject.transform)
+    {
+        Debug.Log("DestroyOldPlots: Child Position Z: " + child.position.z);
+
+        // Verifica se a posição Z da casa é menor que a posição Z da última casa gerada menos a zona segura
+        if (child.position.z < lastPlotZ - _safeZone)
+        {
+            Debug.Log("DestroyOldPlots: Destroying Plot");
+            Destroy(child.gameObject); // Destrói a casa ultrapassada
+        }
+    }
+}
+
+
+
 }
