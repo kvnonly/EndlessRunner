@@ -6,7 +6,9 @@ using System.Linq;
 public class SpawnRoad : MonoBehaviour
 {
     [SerializeField] private List<GameObject> _roads; // Lista de estradas disponíveis
-    private float _roadOffset = 24f; // Distância entre as estradas
+    [SerializeField] private float _roadOffset = 20f; // Distância entre as estradas
+    [SerializeField] private float _spawnInX;
+    [SerializeField] private float _spawnInY;
 
     private void Start()
     {
@@ -24,7 +26,7 @@ public void MoveRoads()
     _roads.RemoveAt(0); // Remove a primeira estrada da lista
 
     float newZ = _roads[_roads.Count - 1].transform.position.z + _roadOffset; // Calcula a nova posição Z para a estrada movida
-    moveRoad.transform.position = new Vector3(0, 0, newZ); // Define a nova posição para a estrada movida
+    moveRoad.transform.position = new Vector3(_spawnInX, _spawnInY, newZ); // Define a nova posição para a estrada movida
 
     _roads.Add(moveRoad); // Adiciona a estrada removida ao final da lista
 

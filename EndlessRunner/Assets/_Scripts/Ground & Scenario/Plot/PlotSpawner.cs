@@ -4,42 +4,53 @@ using UnityEngine;
 
 public class PlotSpawner : MonoBehaviour
 {
-    [SerializeField] private List<GameObject> _plots; // Lista de casas disponíveis para gerar
-    [SerializeField] private int _initAmount = 4; // Quantidade inicial de casas a serem geradas
-    [SerializeField] private float _plotSize = 30f; // Tamanho de cada casa
-    [SerializeField] private float _LeftXPos; // Posição X para a casa da esquerda
-    [SerializeField] private float _RightXPos; // Posição X para a casa da direita
-    [SerializeField] private GameObject _firstLeftPlot; // Primeira casa da esquerda
-    [SerializeField] private GameObject _firstRightPlot; // Primeira casa da direita
-    [SerializeField] private GameObject _leftPlotParentObject; // Objeto-pai para as casas
-    [SerializeField] private GameObject _rightPlotParentObject; // Objeto-pai para as casas
-    [SerializeField] private float _safeZone = 100f; // Zona segura antes de destruir as casas ultrapassadas
 
-    private float _lastZPos; // Posição Z da última casa gerada
-    private GameObject _lastLeftPlot; // Referência para a última casa da esquerda gerada
-    private GameObject _lastRightPlot; // Referência para a última casa da direita gerada
+    [Header("Components")]
+    [Space(15)]
 
+    [SerializeField] private List<GameObject> _plots;
+    [SerializeField] private GameObject _player;
+    private List<GameObject> _spawnedPlots;
+
+    [Header("Destruction Parameters")]
+    [Space(15)]
+    [SerializeField] private float _safeZone;
+    [SerializeField] private Transform _startPoint;
+    [SerializeField] private float _distanceToDestroy;
+
+    [Header("House Parameters")]
+    [Space(15)]
+    [SerializeField] private GameObject _leftPlotParentObject;
+    [SerializeField] private GameObject _rightPlotParentObject;
+    [SerializeField] private GameObject _firstLeftHouse;
+    [SerializeField] private GameObject _firstRightHouse;
+    [SerializeField] private int _initAmount = 4;
+    [SerializeField] private float _plotSize;
+    [SerializeField] private float _LeftXPos;
+    [SerializeField] private float _RightXPos;
+
+
+    //Player Parameters
+    private float _playerZPos;
+
+    
     private void Start()
     {
-        // Posiciona a última Z com base na posição da primeira casa da esquerda
-        _lastZPos = _firstLeftPlot.transform.position.z;
-
-        // Define a primeira casa da direita como a última casa gerada
-        _lastRightPlot = _firstRightPlot;
+        _spawnedPlots = new List<GameObject>();
 
         for (int i = 0; i < _initAmount; i++)
         {
-            SpawnPlot(); // Gera as casas iniciais
+            SpawnPlot();
         }
     }
 
     private void Update()
     {
-        // Verifica se a posição Z do personagem ultrapassou a zona segura
-        if (transform.position.z > _lastZPos - _safeZone)
+        _playerZPos = _player.transform.position.z;
+
+        if (_playerZPos > _startPoint.position.z + _safeZone)
         {
-            Debug.Log("O método no update ta funcionando");
-            DestroyOldPlots(); // Destroi as casas ultrapassadas
+            DestroyPreviousPlots();
         }
     }
 
@@ -50,62 +61,38 @@ public class PlotSpawner : MonoBehaviour
 
         do
         {
-            // Seleciona aleatoriamente as casas da lista
-            leftPlot = _plots[Random.Range(0, _plots.Count)];
-            rightPlot = _plots[Random.Range(0, _plots.Count)];
+            leftPlot = _plots[Random.Range(0, _plots.Count)]; // Seleciona aleatoriamente uma casa à esquerda da lista de casas disponíveis
+            rightPlot = _plots[Random.Range(0, _plots.Count)]; // Seleciona aleatoriamente uma casa à direita da lista de casas disponíveis
         }
-        while (leftPlot == _lastLeftPlot || leftPlot == _lastRightPlot || rightPlot == _lastLeftPlot || rightPlot == _lastRightPlot);
-        // Repete o processo até que uma combinação não repetida seja encontrada
+        while (leftPlot == rightPlot); // Repete o processo se ambas as casas forem iguais
 
-        float zPos = _lastZPos + _plotSize; // Calcula a nova posição Z para a próxima casa
+        float zPos = (_spawnedPlots.Count > 0) ? _spawnedPlots[_spawnedPlots.Count - 1].transform.position.z + _plotSize : 0f; // Determina a posição Z da nova casa com base na posição Z da última casa instanciada
 
-        // Instancia as casas da esquerda e direita como filhas do objeto-pai
-        GameObject spawnedLeftPlot = Instantiate(leftPlot, new Vector3(_LeftXPos, 0, zPos), leftPlot.transform.rotation);
-        spawnedLeftPlot.transform.parent = _leftPlotParentObject.transform;
-
-        GameObject spawnedRightPlot = Instantiate(rightPlot, new Vector3(_RightXPos, 0, zPos), Quaternion.Euler(0, 180, 0));
-        spawnedRightPlot.transform.parent = _rightPlotParentObject.transform;
-
-        _lastZPos += _plotSize; // Atualiza a posição Z da última casa gerada
-        _lastLeftPlot = leftPlot; // Armazena a referência para a última casa da esquerda gerada
-        _lastRightPlot = rightPlot; // Armazena a referência para a última casa da direita gerada
+        GameObject spawnedLeftPlot = Instantiate(leftPlot, new Vector3(_LeftXPos, 0, zPos), leftPlot.transform.rotation, _leftPlotParentObject.transform); // Instancia a casa à esquerda com a posição e rotação corretas
+        GameObject spawnedRightPlot = Instantiate(rightPlot, new Vector3(_RightXPos, 0, zPos), Quaternion.Euler(0, 180, 0), _rightPlotParentObject.transform); // Instancia a casa à direita com a posição e rotação corretas
+        
+        _spawnedPlots.Add(spawnedLeftPlot); // Adiciona a casa à esquerda à lista de casas instanciadas
+        _spawnedPlots.Add(spawnedRightPlot); // Adiciona a casa à direita à lista de casas instanciadas
     }
 
-private void DestroyOldPlots()
-{
-    // Obtém a posição Z da última casa gerada
-    float lastPlotZ = _lastZPos - _plotSize;
-
-    Debug.Log("DestroyOldPlots: Last Plot Z: " + lastPlotZ);
-
-    // Percorre todas as casas filhas do objeto-pai da esquerda
-    foreach (Transform child in _leftPlotParentObject.transform)
+    private void DestroyPreviousPlots()
     {
-        Debug.Log("DestroyOldPlots: Child Position Z: " + child.position.z);
-
-        // Verifica se a posição Z da casa é menor que a posição Z da última casa gerada menos a zona segura
-        if (child.position.z < lastPlotZ - _safeZone)
+        for (int i = _spawnedPlots.Count - 1; i >= 0; i--)
         {
-            Debug.Log("DestroyOldPlots: Destroying Left Plot");
-            Destroy(child.gameObject); // Destrói a casa ultrapassada
+            GameObject plot = _spawnedPlots[i]; // Obtém uma referência para a casa atual da iteração
+
+            float plotZPos = plot.transform.position.z; // Obtém a posição Z da casa atual
+
+            // Verificar se as casas instanciadas ou a casa inicial está além da distância de destruição
+            if (plotZPos + _distanceToDestroy < _playerZPos) // Verifica se a casa está além da distância de destruição
+            {
+                _spawnedPlots.Remove(plot); // Remove a casa da lista de casas instanciadas
+                Destroy(_firstLeftHouse); // Destroi a casa inicial à esquerda
+                Destroy(_firstRightHouse); // Destroi a casa inicial à direita
+                Destroy(plot); // Destroi a casa atual
+                Debug.Log("Destroyed Plot: " + plot.transform.position); // Exibe um log informando a destruição da casa
+            }
         }
     }
-
-    // Percorre todas as casas filhas do objeto-pai da direita
-    foreach (Transform child in _rightPlotParentObject.transform)
-    {
-        Debug.Log("DestroyOldPlots: Child Position Z: " + child.position.z);
-
-        // Verifica se a posição Z da casa é menor que a posição Z da última casa gerada menos a zona segura
-        if (child.position.z < lastPlotZ - _safeZone)
-        {
-            Debug.Log("DestroyOldPlots: Destroying Right Plot");
-            Destroy(child.gameObject); // Destrói a casa ultrapassada
-        }
-    }
-}
-
-
-
 
 }

@@ -13,7 +13,6 @@ public class PlayerController : MonoBehaviour
     
     [Header("Ground, Checks and Tags")]
     [Space(15)]
-    [SerializeField] private float _groundDetectionRayStartPoint = 0.5f;
     [SerializeField] private float _minimumDistanceToFall = 1f;
     [SerializeField] private LayerMask _ignoreForGroundCheck;
     [SerializeField] private GameObject _leftFoot;
@@ -51,9 +50,9 @@ public class PlayerController : MonoBehaviour
     private void Update()
     {
         Walk();
-        HandleGravity();
-        Jump();
-        Slide();
+        //HandleGravity();
+        //Jump();
+        //Slide();
     }
 
     #region Player Action Methods

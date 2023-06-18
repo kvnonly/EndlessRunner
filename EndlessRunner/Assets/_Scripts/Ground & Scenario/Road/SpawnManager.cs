@@ -6,6 +6,7 @@ public class SpawnManager : MonoBehaviour
 {
     private SpawnRoad _roadSpawn;
     private PlotSpawner _plotSpawn;
+    [SerializeField] private int _totalAmount = 16;
 
     void Start()
     {
@@ -22,6 +23,10 @@ public class SpawnManager : MonoBehaviour
     public void SpawnTriggerEntered()
     {
         _roadSpawn.MoveRoads();
-        _plotSpawn.SpawnPlot();
+
+        for (int i = 0; i < _totalAmount; i++)
+        {
+            _plotSpawn.SpawnPlot();
+        }
     }
 }
