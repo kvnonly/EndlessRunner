@@ -5,7 +5,13 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "Data/Player Data")]
 public class PlayerData : ScriptableObject
 {
-    [Header("Movement Parameters")]
+    [Header("Geral Status Parameters")]
+    [Space(15)]
+
+    [SerializeField] private int _life;
+    [SerializeField] private int _coins;
+    
+    [Header("Movement Status Parameters")]
     [Space(15)]
     [SerializeField] private float _lateralSpeed;
     [SerializeField] private float _forwardSpeed;
@@ -17,6 +23,8 @@ public class PlayerData : ScriptableObject
     [Header("Slide Parameters")]
     [Space(15)]
     [SerializeField] private float _slideSpeedMultiplier;
+    [SerializeField] private float _slideCollisionHeight = 0.5f;
+    [SerializeField] private float _slideCollisionCenterMultiplier = 0.5f;
 
 
     [Header("Gravity Parameters")]
@@ -37,6 +45,8 @@ public class PlayerData : ScriptableObject
     
 
     public float SlideSpeedMultiplier {get { return _slideSpeedMultiplier; } set { _slideSpeedMultiplier = value; }}
+    public float SlideCollisionHeight {get { return _slideCollisionHeight;} set { _slideCollisionHeight = value; }}
+    public float SlideCollisionCenterMultiplier {get { return _slideCollisionCenterMultiplier; } set { _slideCollisionCenterMultiplier = value; }}
     
 
 

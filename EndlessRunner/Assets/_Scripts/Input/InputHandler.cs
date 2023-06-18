@@ -15,8 +15,6 @@ public class InputHandler : MonoBehaviour
     private bool _usePressed;
     private bool _leftSide;
     private bool _rightSide;
-
-
     //Para o acesso das variaveis de movimento e ações do jogador, métodos get e set são criados para que o acesso de outros scripts seja possível da mesma forma que a torna mais dificil de ser editada por fora
     // Os métodos abaixo serão usados em outros scripts em vez de acessar diretamente as variaveis
     public Vector2 WalkInput {get {return _walkInput; } set { _walkInput = value;}}
@@ -96,10 +94,6 @@ public class InputHandler : MonoBehaviour
 
     #region Input Management
 
-    public GameControls GameControls
-    {
-        get { return _gameControls; }
-    }
 
     private void OnEnable() 
     {

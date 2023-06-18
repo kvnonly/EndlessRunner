@@ -90,7 +90,7 @@ public class PlotSpawner : MonoBehaviour
                 Destroy(_firstLeftHouse); // Destroi a casa inicial à esquerda
                 Destroy(_firstRightHouse); // Destroi a casa inicial à direita
                 Destroy(plot); // Destroi a casa atual
-                Debug.Log("Destroyed Plot: " + plot.transform.position); // Exibe um log informando a destruição da casa
+                //Debug.Log("Destroyed Plot: " + plot.transform.position); // Exibe um log informando a destruição da casa
             }
         }
     }

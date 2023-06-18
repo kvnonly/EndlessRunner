@@ -4,65 +4,112 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
+    // Componentes
     [Header("Components")]
     [Space(15)]
-    [SerializeField] private PlayerData _data;
-    [SerializeField] private InputHandler _inputHandler;
-    [SerializeField] private SpawnManager _spawnManager;
-    private CharacterController _characterController;
-    
+    [SerializeField] private PlayerData _data; // Dados do jogador
+    [SerializeField] private InputHandler _inputHandler; // Gerenciador de entrada
+    [SerializeField] private SpawnManager _spawnManager; // Gerenciador de spawn
+    private CharacterController _characterController; // Componente CharacterController usado para controlar o personagem
+
+    // Verificação de solo e tags
     [Header("Ground, Checks and Tags")]
     [Space(15)]
-    [SerializeField] private float _minimumDistanceToFall = 1f;
-    [SerializeField] private LayerMask _ignoreForGroundCheck;
-    [SerializeField] private GameObject _leftFoot;
-    [SerializeField] private Vector3 _leftFootOffset;
-    [SerializeField] private Vector3 _centerOffset;
-    [SerializeField] private GameObject _rightFoot;
-    [SerializeField] private Vector3 _rightFootOffset;
+    [SerializeField] private float _minimumDistanceToFall = 1f; // Distância mínima para detectar queda
+    [SerializeField] private LayerMask _ignoreForGroundCheck; // LayerMask para ignorar na verificação de solo
+    [SerializeField] private GameObject _leftFoot; // Pé esquerdo
+    [SerializeField] private Vector3 _leftFootOffset; // Deslocamento do pé esquerdo
+    [SerializeField] private Vector3 _centerOffset; // Deslocamento do centro do personagem
+    [SerializeField] private GameObject _rightFoot; // Pé direito
+    [SerializeField] private Vector3 _rightFootOffset; // Deslocamento do pé direito
 
+    // Parâmetros de estradas e repetição
     [Header("Roads and Repetition Parameters")]
     [Space(15)]
-    [SerializeField] private float _laneWidth;
-    [SerializeField] private int _numLanes;
+    [SerializeField] private float _roadWidth; // Largura da estrada
+    [SerializeField] private float _leftRoadCenter; // Posição central da estrada esquerda
+    [SerializeField] private float _middleRoadCenter; // Posição central da estrada do meio
+    [SerializeField] private float _rightRoadCenter; // Posição central da estrada direita
+    [SerializeField] private int _numLanes; // Número de pistas
 
+    // Parâmetros de slide
     [Header("Slide Parameters")]
     [Space(15)]
-    [SerializeField] private float _originalCharacterControllerCenter;
-    [SerializeField] private float _originalCharacterControllerHeight;
-    //Movement
+    private bool _isSlidingAnimationFinished = true;
+    [SerializeField] private float _originalCharacterControllerCenter; // Valor original do centro do CharacterController
+    [SerializeField] private float _originalCharacterControllerHeight; // Valor original da altura do CharacterController
 
+    // Movimento
     private float _velocityY; // Velocidade vertical do personagem
 
-    private int _currentLaneIndex;
+    private int _currentLaneIndex; // Índice da pista atual
 
     // Flags
-    private bool _isMovingRight = false;
-    private bool _isMovingLeft = false;
+    private bool _isMovingRight = false; // Flag de movimento para a direita
+    private bool _isMovingLeft = false; // Flag de movimento para a esquerda
     private bool _isGrounded; // Flag que indica se o personagem está no chão
+
+
+    //GET e SET Methods
+
+    public bool IsSlidingAnimationFinished { get { return _isSlidingAnimationFinished; } set { _isSlidingAnimationFinished = value; }}
 
     private void Awake()
     {
         _characterController = GetComponent<CharacterController>();
-        _currentLaneIndex = Mathf.FloorToInt(_numLanes / 2f);
+        _currentLaneIndex = Mathf.FloorToInt(_numLanes / 2f); // Define a pista inicial como a do meio
     }
 
     private void Update()
     {
-        Walk();
-        //HandleGravity();
-        //Jump();
-        //Slide();
+        Walk(); // Método para mover o personagem para frente
+        HandleGravity(); // Método para lidar com a gravidade
+        Jump(); // Método para fazer o personagem pular
+        Slide(); // Método para fazer o personagem deslizar
     }
 
     #region Player Action Methods
 
-    private void Walk()
+private void Slide()
+{
+    if (_isGrounded && _inputHandler.IsSliding && _isSlidingAnimationFinished)
+    {
+        // Reduz o tamanho da colisão do personagem para deslizar
+        Vector3 newSize = _characterController.bounds.size;
+        newSize.y *= _data.SlideCollisionHeight;
+        _characterController.center = new Vector3(_characterController.center.x, _characterController.center.y * _data.SlideCollisionCenterMultiplier, _characterController.center.z);
+        _characterController.height = newSize.y;
+
+        // Aplica a velocidade para frente ajustada durante o deslize
+        Vector3 targetPosition = transform.position + transform.forward * _data.ForwardSpeed * _data.SlideSpeedMultiplier * Time.deltaTime;
+
+        // Movimentação lateral usando a lógica do método Walk()
+        Walk();
+
+        // Move o personagem para a posição alvo utilizando o CharacterController
+        _characterController.Move(targetPosition - transform.position);
+    }
+    else
+    {
+        // Restaura o tamanho da colisão do personagem quando não estiver deslizando
+        Vector3 originalSize = _characterController.bounds.size;
+        originalSize.y = _originalCharacterControllerHeight;
+        _characterController.center = new Vector3(_characterController.center.x, _originalCharacterControllerCenter, _characterController.center.z);
+        _characterController.height = originalSize.y;
+
+        // Movimentação lateral usando a lógica do método Walk()
+        Walk();
+    }
+}
+private void Walk()
+{
+    if (_isGrounded)
     {
         if (_inputHandler.RightSide)
         {
             if (!_isMovingRight && _currentLaneIndex < _numLanes - 1)
             {
+                // Move para a próxima pista à direita se possível
                 _currentLaneIndex++;
                 _isMovingRight = true;
                 _isMovingLeft = false;
@@ -77,6 +124,7 @@ public class PlayerController : MonoBehaviour
         {
             if (!_isMovingLeft && _currentLaneIndex > 0)
             {
+                // Move para a próxima pista à esquerda se possível
                 _currentLaneIndex--;
                 _isMovingLeft = true;
                 _isMovingRight = false;
@@ -89,6 +137,7 @@ public class PlayerController : MonoBehaviour
         }
         else
         {
+            // Não há movimento lateral
             _isMovingRight = false;
             _isMovingLeft = false;
         }
@@ -97,17 +146,31 @@ public class PlayerController : MonoBehaviour
         Vector3 targetPosition = transform.position + transform.forward * _data.ForwardSpeed * Time.deltaTime;
 
         // Calcula a nova posição X com base no índice da pista e na largura das ruas
-        float targetX = _currentLaneIndex * _laneWidth;
+        float targetX = 0f;
+        if (_currentLaneIndex == 0)
+        {
+            targetX = _leftRoadCenter;
+        }
+        else if (_currentLaneIndex == _numLanes - 1)
+        {
+            targetX = _rightRoadCenter;
+        }
+        else
+        {
+            targetX = _middleRoadCenter + (_currentLaneIndex - 1) * _roadWidth;
+        }
+
         targetPosition.x = Mathf.Lerp(transform.position.x, targetX, _data.LateralSpeed * Time.deltaTime);
         targetPosition.y = _velocityY;
-         
 
         // Move o personagem para a posição alvo utilizando o CharacterController
         _characterController.Move(targetPosition - transform.position);
     }
+}
 
     private void HandleGravity()
     {
+        // Verifica se algum dos pés ou o centro do personagem está no chão
         bool isCenterGrounded = Physics.Raycast(transform.position + _centerOffset, -Vector3.up, out RaycastHit centerHit, _minimumDistanceToFall, _ignoreForGroundCheck);
         bool isRightFootGrounded = Physics.Raycast(_rightFoot.transform.position + _rightFootOffset, -Vector3.up, out RaycastHit rightFootHit, _minimumDistanceToFall, _ignoreForGroundCheck);
         bool isLeftFootGrounded = Physics.Raycast(_leftFoot.transform.position + _leftFootOffset, -Vector3.up, out RaycastHit leftFootHit, _minimumDistanceToFall, _ignoreForGroundCheck);
@@ -118,19 +181,19 @@ public class PlayerController : MonoBehaviour
         {
             // O personagem está no chão
             _isGrounded = true;
-            _velocityY = 0f; // Reiniciar a velocidade vertical
+            _velocityY = -1f; // Reiniciar a velocidade vertical
         }
         else
         {
             // O personagem está no ar
             _isGrounded = false;
-            _velocityY += Physics.gravity.y * _data.GravityScale * _data.GravityMultiplier * Time.deltaTime; // Aplicar gravidade
+            _velocityY += _data.GravityScale * _data.GravityMultiplier * Time.deltaTime; // Aplicar gravidade
         }
     }
 
     private void OnDrawGizmos()
     {
-        // Exibir raios no Editor Unity
+        // Exibe os raios no Editor Unity para verificar a detecção de solo
         Gizmos.color = Color.red;
         Gizmos.DrawRay(transform.position + _centerOffset, -Vector3.up * _minimumDistanceToFall);
         Gizmos.DrawRay(_rightFoot.transform.position + _rightFootOffset, -Vector3.up * _minimumDistanceToFall);
@@ -142,41 +205,11 @@ public class PlayerController : MonoBehaviour
         if (_isGrounded && _inputHandler.IsJumping)
         {
             // O personagem está no chão e o botão de pulo foi pressionado
-            _velocityY = _data.JumpForce; // Aplica a força do pulo à velocidade vertical
+            _velocityY += _data.JumpForce; // Aplica a força do pulo à velocidade vertical
             _isGrounded = false; // O personagem não está mais no chão
         }
     }
-
-    private void Slide()
-{
-    if (_isGrounded && _inputHandler.IsSliding)
-    {
-
-        // Exemplo: Reduzir o tamanho da colisão do personagem
-        Vector3 newSize = _characterController.bounds.size;
-        newSize.y *= 0.5f; // Reduzir a altura da colisão pela metade
-        _characterController.center = new Vector3(_characterController.center.x, _characterController.center.y * 0.5f, _characterController.center.z);
-        _characterController.height = newSize.y;
-
-
-        // Aplicar a velocidade lateral ajustada
-        Vector3 targetPosition = transform.position + transform.forward * _data.ForwardSpeed * Time.deltaTime;
-        float targetX = _currentLaneIndex * _laneWidth;
-        targetPosition.x = Mathf.Lerp(transform.position.x, targetX, _data.LateralSpeed * _data.SlideSpeedMultiplier * Time.deltaTime);
-        _characterController.Move(targetPosition - transform.position);
-    }
-    else
-    {
-        // Restaurar o tamanho da colisão do personagem quando não estiver deslizando
-        Vector3 originalSize = _characterController.bounds.size;
-        originalSize.y = _originalCharacterControllerHeight;
-        _characterController.center = new Vector3(_characterController.center.x, _originalCharacterControllerCenter, _characterController.center.z);
-        _characterController.height = originalSize.y;
-    }
-}
-
-
-   private void TakeDamage()
+    private void TakeDamage()
     {
         // Implemente a lógica para o personagem sofrer dano.
     }
@@ -186,17 +219,16 @@ public class PlayerController : MonoBehaviour
         // Implemente a lógica para a morte do personagem.
     }
 
-    private void OnTriggerEnter(Collider other) 
+    private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("RoadCollision"))
         {
-            //Debug.Log("Colisão com a tag correta ocorreu!");
+            // Colisão com a tag correta ocorreu!
             _spawnManager.SpawnTriggerEntered();
-        
         }
         else
         {
-            //Debug.Log("Colisão com uma tag diferente ocorreu: " + other.tag);
+            // Colisão com uma tag diferente ocorreu
         }
     }
 
