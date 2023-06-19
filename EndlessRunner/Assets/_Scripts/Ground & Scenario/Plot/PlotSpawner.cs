@@ -69,7 +69,7 @@ public class PlotSpawner : MonoBehaviour
         float zPos = (_spawnedPlots.Count > 0) ? _spawnedPlots[_spawnedPlots.Count - 1].transform.position.z + _plotSize : 0f; // Determina a posição Z da nova casa com base na posição Z da última casa instanciada
 
         GameObject spawnedLeftPlot = Instantiate(leftPlot, new Vector3(_LeftXPos, 0, zPos), leftPlot.transform.rotation, _leftPlotParentObject.transform); // Instancia a casa à esquerda com a posição e rotação corretas
-        GameObject spawnedRightPlot = Instantiate(rightPlot, new Vector3(_RightXPos, 0, zPos), Quaternion.Euler(-90, 180, 0), _rightPlotParentObject.transform); // Instancia a casa à direita com a posição e rotação corretas
+        GameObject spawnedRightPlot = Instantiate(rightPlot, new Vector3(_RightXPos, 0, zPos), Quaternion.Euler(0, 180, 0), _rightPlotParentObject.transform); // Instancia a casa à direita com a posição e rotação corretas
         
         _spawnedPlots.Add(spawnedLeftPlot); // Adiciona a casa à esquerda à lista de casas instanciadas
         _spawnedPlots.Add(spawnedRightPlot); // Adiciona a casa à direita à lista de casas instanciadas

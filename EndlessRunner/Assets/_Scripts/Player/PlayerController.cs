@@ -81,15 +81,6 @@ private void Slide()
         _characterController.center = new Vector3(_characterController.center.x, _characterController.center.y * _data.SlideCollisionCenterMultiplier, _characterController.center.z);
         _characterController.height = newSize.y;
 
-        // Aplica a velocidade para frente ajustada durante o deslize
-        _targetPosition = transform.position + transform.forward * _data.ForwardSpeed * _data.SlideSpeedMultiplier * Time.deltaTime;
-        _targetPosition.y = _velocityY;
-        // Movimentação lateral usando a lógica do método Walk()
-        Walk();
-
-        // Move o personagem para a posição alvo utilizando o CharacterController
-        _characterController.Move(_targetPosition - transform.position);
-
         _isSlidingAnimationFinished = false;
     }
     else
@@ -99,9 +90,6 @@ private void Slide()
         originalSize.y = _originalCharacterControllerHeight;
         _characterController.center = new Vector3(_characterController.center.x, _originalCharacterControllerCenter, _characterController.center.z);
         _characterController.height = originalSize.y;
-
-        // Movimentação lateral usando a lógica do método Walk()
-        Walk();
     }
 }
 private void Walk()
