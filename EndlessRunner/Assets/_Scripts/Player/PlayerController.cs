@@ -41,7 +41,7 @@ public class PlayerController : MonoBehaviour
 
     // Movimento
     private float _velocityY; // Velocidade vertical do personagem
-
+    private Vector3 _targetPosition;
     private int _currentLaneIndex; // Índice da pista atual
 
     // Flags
@@ -66,6 +66,7 @@ public class PlayerController : MonoBehaviour
         HandleGravity(); // Método para lidar com a gravidade
         Jump(); // Método para fazer o personagem pular
         Slide(); // Método para fazer o personagem deslizar
+        _data.UpdatingSpeed(); //Aumenta a velocidade gradativamente
     }
 
     #region Player Action Methods
@@ -81,13 +82,15 @@ private void Slide()
         _characterController.height = newSize.y;
 
         // Aplica a velocidade para frente ajustada durante o deslize
-        Vector3 targetPosition = transform.position + transform.forward * _data.ForwardSpeed * _data.SlideSpeedMultiplier * Time.deltaTime;
-
+        _targetPosition = transform.position + transform.forward * _data.ForwardSpeed * _data.SlideSpeedMultiplier * Time.deltaTime;
+        _targetPosition.y = _velocityY;
         // Movimentação lateral usando a lógica do método Walk()
         Walk();
 
         // Move o personagem para a posição alvo utilizando o CharacterController
-        _characterController.Move(targetPosition - transform.position);
+        _characterController.Move(_targetPosition - transform.position);
+
+        _isSlidingAnimationFinished = false;
     }
     else
     {
@@ -143,7 +146,7 @@ private void Walk()
         }
 
         // Calcula a posição alvo do personagem considerando o movimento para frente
-        Vector3 targetPosition = transform.position + transform.forward * _data.ForwardSpeed * Time.deltaTime;
+        _targetPosition = transform.position + transform.forward * _data.ForwardSpeed * Time.deltaTime;
 
         // Calcula a nova posição X com base no índice da pista e na largura das ruas
         float targetX = 0f;
@@ -160,11 +163,11 @@ private void Walk()
             targetX = _middleRoadCenter + (_currentLaneIndex - 1) * _roadWidth;
         }
 
-        targetPosition.x = Mathf.Lerp(transform.position.x, targetX, _data.LateralSpeed * Time.deltaTime);
-        targetPosition.y = _velocityY;
+        _targetPosition.x = Mathf.Lerp(transform.position.x, targetX, _data.LateralSpeed * Time.deltaTime);
+        _targetPosition.y = _velocityY;
 
         // Move o personagem para a posição alvo utilizando o CharacterController
-        _characterController.Move(targetPosition - transform.position);
+        _characterController.Move(_targetPosition - transform.position);
     }
 }
 
