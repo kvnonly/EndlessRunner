@@ -65,15 +65,12 @@ public class PlayerController : MonoBehaviour
         Walk(); // Método para mover o personagem para frente
         HandleGravity(); // Método para lidar com a gravidade
         Jump(); // Método para fazer o personagem pular
-        Slide(); // Método para fazer o personagem deslizar
         _data.UpdatingSpeed(); //Aumenta a velocidade gradativamente
     }
 
     #region Player Action Methods
 
-private void Slide()
-{
-    if (_isGrounded && _inputHandler.IsSliding && _isSlidingAnimationFinished)
+    public void SlideCollision()
     {
         // Reduz o tamanho da colisão do personagem para deslizar
         Vector3 newSize = _characterController.bounds.size;
@@ -83,7 +80,8 @@ private void Slide()
 
         _isSlidingAnimationFinished = false;
     }
-    else
+    
+    public void NormalCollision()
     {
         // Restaura o tamanho da colisão do personagem quando não estiver deslizando
         Vector3 originalSize = _characterController.bounds.size;
@@ -91,73 +89,74 @@ private void Slide()
         _characterController.center = new Vector3(_characterController.center.x, _originalCharacterControllerCenter, _characterController.center.z);
         _characterController.height = originalSize.y;
     }
-}
-private void Walk()
-{
-    if (_isGrounded)
+
+    private void Walk()
     {
-        if (_inputHandler.RightSide)
+        if (_isGrounded)
         {
-            if (!_isMovingRight && _currentLaneIndex < _numLanes - 1)
+            if (_inputHandler.RightSide)
             {
-                // Move para a próxima pista à direita se possível
-                _currentLaneIndex++;
-                _isMovingRight = true;
+                if (!_isMovingRight && _currentLaneIndex < _numLanes - 1)
+                {
+                    // Move para a próxima pista à direita se possível
+                    _currentLaneIndex++;
+                    _isMovingRight = true;
+                    _isMovingLeft = false;
+                }
+                else if (!_isMovingRight && _currentLaneIndex >= _numLanes - 1)
+                {
+                    // O personagem está na extremidade direita e tentou se mover novamente para a direita
+                    TakeDamage();
+                }
+            }
+            else if (_inputHandler.LeftSide)
+            {
+                if (!_isMovingLeft && _currentLaneIndex > 0)
+                {
+                    // Move para a próxima pista à esquerda se possível
+                    _currentLaneIndex--;
+                    _isMovingLeft = true;
+                    _isMovingRight = false;
+                }
+                else if (!_isMovingLeft && _currentLaneIndex <= 0)
+                {
+                    // O personagem está na extremidade esquerda e tentou se mover novamente para a esquerda
+                    TakeDamage();
+                }
+            }
+            else
+            {
+                // Não há movimento lateral
+                _isMovingRight = false;
                 _isMovingLeft = false;
             }
-            else if (!_isMovingRight && _currentLaneIndex >= _numLanes - 1)
+
+            // Calcula a posição alvo do personagem considerando o movimento para frente
+            _targetPosition = transform.position + transform.forward * _data.ForwardSpeed * Time.deltaTime;
+
+            // Calcula a nova posição X com base no índice da pista e na largura das ruas
+            float targetX = 0f;
+            if (_currentLaneIndex == 0)
             {
-                // O personagem está na extremidade direita e tentou se mover novamente para a direita
-                TakeDamage();
+                targetX = _leftRoadCenter;
             }
-        }
-        else if (_inputHandler.LeftSide)
-        {
-            if (!_isMovingLeft && _currentLaneIndex > 0)
+            else if (_currentLaneIndex == _numLanes - 1)
             {
-                // Move para a próxima pista à esquerda se possível
-                _currentLaneIndex--;
-                _isMovingLeft = true;
-                _isMovingRight = false;
+                targetX = _rightRoadCenter;
             }
-            else if (!_isMovingLeft && _currentLaneIndex <= 0)
+            else
             {
-                // O personagem está na extremidade esquerda e tentou se mover novamente para a esquerda
-                TakeDamage();
+                targetX = _middleRoadCenter + (_currentLaneIndex - 1) * _roadWidth;
             }
-        }
-        else
-        {
-            // Não há movimento lateral
-            _isMovingRight = false;
-            _isMovingLeft = false;
-        }
 
-        // Calcula a posição alvo do personagem considerando o movimento para frente
-        _targetPosition = transform.position + transform.forward * _data.ForwardSpeed * Time.deltaTime;
+            _targetPosition.x = Mathf.Lerp(transform.position.x, targetX, _data.LateralSpeed * Time.deltaTime);
 
-        // Calcula a nova posição X com base no índice da pista e na largura das ruas
-        float targetX = 0f;
-        if (_currentLaneIndex == 0)
-        {
-            targetX = _leftRoadCenter;
-        }
-        else if (_currentLaneIndex == _numLanes - 1)
-        {
-            targetX = _rightRoadCenter;
-        }
-        else
-        {
-            targetX = _middleRoadCenter + (_currentLaneIndex - 1) * _roadWidth;
-        }
+            // Move o personagem para a posição alvo utilizando o CharacterController
+            _characterController.Move(_targetPosition - transform.position);
 
-        _targetPosition.x = Mathf.Lerp(transform.position.x, targetX, _data.LateralSpeed * Time.deltaTime);
-        _targetPosition.y = _velocityY;
-
-        // Move o personagem para a posição alvo utilizando o CharacterController
-        _characterController.Move(_targetPosition - transform.position);
+            _targetPosition.y = _velocityY;
+        }
     }
-}
 
     private void HandleGravity()
     {
@@ -196,9 +195,10 @@ private void Walk()
         if (_isGrounded && _inputHandler.IsJumping)
         {
             // O personagem está no chão e o botão de pulo foi pressionado
-            _velocityY += _data.JumpForce; // Aplica a força do pulo à velocidade vertical
+            _velocityY += _data.JumpForce; // Define a velocidade vertical como a força do pulo
             _isGrounded = false; // O personagem não está mais no chão
         }
+
     }
     private void TakeDamage()
     {
