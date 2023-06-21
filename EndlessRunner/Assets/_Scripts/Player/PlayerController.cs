@@ -92,15 +92,12 @@ private void Slide()
         _characterController.height = originalSize.y;
     }
 }
-private void Walk()
-{
-    if (_isGrounded)
+    private void Walk()
     {
         if (_inputHandler.RightSide)
         {
             if (!_isMovingRight && _currentLaneIndex < _numLanes - 1)
             {
-                // Move para a próxima pista à direita se possível
                 _currentLaneIndex++;
                 _isMovingRight = true;
                 _isMovingLeft = false;
@@ -115,7 +112,6 @@ private void Walk()
         {
             if (!_isMovingLeft && _currentLaneIndex > 0)
             {
-                // Move para a próxima pista à esquerda se possível
                 _currentLaneIndex--;
                 _isMovingLeft = true;
                 _isMovingRight = false;
@@ -128,16 +124,15 @@ private void Walk()
         }
         else
         {
-            // Não há movimento lateral
             _isMovingRight = false;
             _isMovingLeft = false;
         }
 
         // Calcula a posição alvo do personagem considerando o movimento para frente
-        _targetPosition = transform.position + transform.forward * _data.ForwardSpeed * Time.deltaTime;
+        _targetPosition.z = transform.position.z + transform.forward.z * _data.ForwardSpeed * Time.deltaTime;
 
         // Calcula a nova posição X com base no índice da pista e na largura das ruas
-        float targetX = 0f;
+                float targetX = 0f;
         if (_currentLaneIndex == 0)
         {
             targetX = _leftRoadCenter;
@@ -152,11 +147,12 @@ private void Walk()
         }
 
         _targetPosition.x = Mathf.Lerp(transform.position.x, targetX, _data.LateralSpeed * Time.deltaTime);
-        _targetPosition.y = _velocityY;
 
+        _targetPosition.y = _velocityY;
+         
+        
         // Move o personagem para a posição alvo utilizando o CharacterController
         _characterController.Move(_targetPosition - transform.position);
-    }
 }
 
     private void HandleGravity()
@@ -195,8 +191,9 @@ private void Walk()
     {
         if (_isGrounded && _inputHandler.IsJumping)
         {
+            Debug.Log("Is jumping");
             // O personagem está no chão e o botão de pulo foi pressionado
-            _velocityY += _data.JumpForce; // Aplica a força do pulo à velocidade vertical
+            _velocityY += _data.JumpForce ; // Aplica a força do pulo à velocidade vertical
             _isGrounded = false; // O personagem não está mais no chão
         }
     }
