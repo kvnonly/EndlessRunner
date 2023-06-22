@@ -23,7 +23,6 @@ public class PlayerData : ScriptableObject
     [Header("Jump Parameters")]
     [Space(15)]
     [SerializeField] private float _jumpForce;
-    [SerializeField] private float _jumpDuration;
 
     [Header("Slide Parameters")]
     [Space(15)]
@@ -49,7 +48,6 @@ public class PlayerData : ScriptableObject
     public float GravityMultiplier {get { return _gravityMultiplier; } set { _gravityMultiplier = value; }}
 
     public float JumpForce {get { return _jumpForce; } set { _jumpForce = value; }}
-    public float JumpDuration {get { return _jumpDuration; } set { _jumpDuration = value; }}
     
 
     public float SlideSpeedMultiplier {get { return _slideSpeedMultiplier; } set { _slideSpeedMultiplier = value; }}

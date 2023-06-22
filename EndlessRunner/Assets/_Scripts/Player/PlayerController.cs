@@ -92,6 +92,7 @@ public class PlayerController : MonoBehaviour
         _characterController.center = new Vector3(_characterController.center.x, _originalCharacterControllerCenter, _characterController.center.z);
         _characterController.height = originalSize.y;
     }
+
     private void Walk()
     {
         if (_inputHandler.RightSide)
@@ -102,11 +103,6 @@ public class PlayerController : MonoBehaviour
                 _isMovingRight = true;
                 _isMovingLeft = false;
             }
-            else if (!_isMovingRight && _currentLaneIndex >= _numLanes - 1)
-            {
-                // O personagem está na extremidade direita e tentou se mover novamente para a direita
-                TakeDamage();
-            }
         }
         else if (_inputHandler.LeftSide)
         {
@@ -115,11 +111,6 @@ public class PlayerController : MonoBehaviour
                 _currentLaneIndex--;
                 _isMovingLeft = true;
                 _isMovingRight = false;
-            }
-            else if (!_isMovingLeft && _currentLaneIndex <= 0)
-            {
-                // O personagem está na extremidade esquerda e tentou se mover novamente para a esquerda
-                TakeDamage();
             }
         }
         else
@@ -132,7 +123,7 @@ public class PlayerController : MonoBehaviour
         _targetPosition.z = transform.position.z + transform.forward.z * _data.ForwardSpeed * Time.deltaTime;
 
         // Calcula a nova posição X com base no índice da pista e na largura das ruas
-                float targetX = 0f;
+        float targetX = 0f;
         if (_currentLaneIndex == 0)
         {
             targetX = _leftRoadCenter;
