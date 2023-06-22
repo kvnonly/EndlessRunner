@@ -18,7 +18,8 @@ MonoBehaviour:
   _forwardSpeedIncreaseRate: 0.01
   _lateralSpeed: 5
   _forwardSpeed: 5
-  _jumpForce: 6
+  _jumpForce: 8
+  _jumpDuration: 0.5
   _slideSpeedMultiplier: 5
   _slideCollisionHeight: 0.5
   _slideCollisionCenterMultiplier: 0.5

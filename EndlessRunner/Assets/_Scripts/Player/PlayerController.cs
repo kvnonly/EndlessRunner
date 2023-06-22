@@ -66,10 +66,10 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
-        Walk(); // Método para mover o personagem para frente
         HandleGravity(); // Método para lidar com a gravidade
         Jump(); // Método para fazer o personagem pular
         _data.UpdatingSpeed(); //Aumenta a velocidade gradativamente
+        Walk(); // Método para mover o personagem para frente
     }
 
     #region Player Action Methods
@@ -187,7 +187,7 @@ public class PlayerController : MonoBehaviour
         Gizmos.DrawRay(_leftFoot.transform.position + _leftFootOffset, -Vector3.up * _minimumDistanceToFall);
     }
 
-    private void Jump()
+   private void Jump()
     {
         if (!_isJumping && _isGrounded && _inputHandler.IsJumping)
         {
@@ -210,7 +210,6 @@ public class PlayerController : MonoBehaviour
     {
         // Implemente a lógica para a morte do personagem.
     }
-
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("RoadCollision"))
