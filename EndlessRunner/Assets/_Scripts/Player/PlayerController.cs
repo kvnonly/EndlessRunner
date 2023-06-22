@@ -48,16 +48,20 @@ public class PlayerController : MonoBehaviour
     private bool _isMovingRight = false; // Flag de movimento para a direita
     private bool _isMovingLeft = false; // Flag de movimento para a esquerda
     private bool _isGrounded; // Flag que indica se o personagem está no chão
+    private bool _isJumping = false;
 
 
     //GET e SET Methods
 
     public bool IsSlidingAnimationFinished { get { return _isSlidingAnimationFinished; } set { _isSlidingAnimationFinished = value; }}
+    public bool IsGrounded {get { return _isGrounded; } set { _isGrounded = value; }}
+    public bool IsJumping {get { return _isJumping; } set { _isJumping = value; }}
 
     private void Awake()
     {
         _characterController = GetComponent<CharacterController>();
         _currentLaneIndex = Mathf.FloorToInt(_numLanes / 2f); // Define a pista inicial como a do meio
+        _data.ForwardSpeed = 5;
     }
 
     private void Update()
@@ -65,17 +69,13 @@ public class PlayerController : MonoBehaviour
         Walk(); // Método para mover o personagem para frente
         HandleGravity(); // Método para lidar com a gravidade
         Jump(); // Método para fazer o personagem pular
-        Slide(); // Método para fazer o personagem deslizar
         _data.UpdatingSpeed(); //Aumenta a velocidade gradativamente
     }
 
     #region Player Action Methods
-
-private void Slide()
-{
-    if (_isGrounded && _inputHandler.IsSliding && _isSlidingAnimationFinished)
+    public void SlidingCollisionSettings()
     {
-        // Reduz o tamanho da colisão do personagem para deslizar
+         // Reduz o tamanho da colisão do personagem para deslizar
         Vector3 newSize = _characterController.bounds.size;
         newSize.y *= _data.SlideCollisionHeight;
         _characterController.center = new Vector3(_characterController.center.x, _characterController.center.y * _data.SlideCollisionCenterMultiplier, _characterController.center.z);
@@ -83,7 +83,8 @@ private void Slide()
 
         _isSlidingAnimationFinished = false;
     }
-    else
+
+    public void DefaultCollisionSettings()
     {
         // Restaura o tamanho da colisão do personagem quando não estiver deslizando
         Vector3 originalSize = _characterController.bounds.size;
@@ -91,7 +92,6 @@ private void Slide()
         _characterController.center = new Vector3(_characterController.center.x, _originalCharacterControllerCenter, _characterController.center.z);
         _characterController.height = originalSize.y;
     }
-}
     private void Walk()
     {
         if (_inputHandler.RightSide)
@@ -153,7 +153,7 @@ private void Slide()
         
         // Move o personagem para a posição alvo utilizando o CharacterController
         _characterController.Move(_targetPosition - transform.position);
-}
+    }
 
     private void HandleGravity()
     {
@@ -189,12 +189,16 @@ private void Slide()
 
     private void Jump()
     {
-        if (_isGrounded && _inputHandler.IsJumping)
+        if (!_isJumping && _isGrounded && _inputHandler.IsJumping)
         {
-            Debug.Log("Is jumping");
             // O personagem está no chão e o botão de pulo foi pressionado
-            _velocityY += _data.JumpForce ; // Aplica a força do pulo à velocidade vertical
+            _isJumping = true;
+            _velocityY += _data.JumpForce; // Aplica a força do pulo à velocidade vertical
             _isGrounded = false; // O personagem não está mais no chão
+        }
+        else if(_isJumping && _isGrounded)
+        {
+             _isJumping = false;
         }
     }
     private void TakeDamage()

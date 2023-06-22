@@ -30,5 +30,19 @@ public class ObstaclesSpawner : MonoBehaviour
                 Instantiate(obstacle, new Vector3(_xPosition, _yPosition,_lastSpawnZ), obstacle.transform.rotation);
             }
         }
+    
+                /*if(Random.Range(0,2) == 1)
+                {
+                    ObstacleCollectableSpace space = obstacle.GetComponent<ObstaclesCollectableSpace>();
+                    Instantiate(_coins, new Vector3(space.GetLane(), 0, _lastSpawnZ + 1.5f), _coins.transform.rotation);
+                }
+            }
+            else
+            {
+                if(Random.Range(0,2) == 1)
+                {
+                    Instantiate(_coins, new Vector3(0, 0, _lastSpawnZ + 1,5f), _coins.transform.position);
+                }
+            }*/
     }
 }
