@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 3042009146322881296}
   m_Layer: 0
   m_Name: container_01
-  m_TagString: Untagged
+  m_TagString: Obstacles
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -92,7 +92,7 @@ BoxCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 816298605985700408}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 2.2670205, y: 2.2634768, z: 4.2805996}
@@ -160,7 +160,7 @@ GameObject:
   - component: {fileID: 3623955092273209285}
   m_Layer: 0
   m_Name: container_01 (5)
-  m_TagString: Untagged
+  m_TagString: Obstacles
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -238,7 +238,7 @@ BoxCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3707259078322038917}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 2.2670205, y: 2.2634768, z: 4.2805996}
@@ -254,10 +254,10 @@ GameObject:
   - component: {fileID: 842737673492602998}
   - component: {fileID: 6262417056764437636}
   - component: {fileID: 4388908051787731301}
-  - component: {fileID: 3515965033263090568}
+  - component: {fileID: 8952093146996272295}
   m_Layer: 0
   m_Name: White barrier (4)
-  m_TagString: Untagged
+  m_TagString: Obstacles
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -327,17 +327,16 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &3515965033263090568
-MeshCollider:
+--- !u!65 &8952093146996272295
+BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7239585889480066581}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 651928363505991179, guid: 4237319dc504b8d42abc47b25e25f29a, type: 3}
+  serializedVersion: 2
+  m_Size: {x: 1.0039738, y: 0.4741435, z: -0.24}
+  m_Center: {x: 0, y: 0.23707175, z: -0.08}

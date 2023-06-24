@@ -80,11 +80,11 @@ public class InputHandler : MonoBehaviour
     #region Input Management
 
 
-    private void OnEnable() 
+    public void OnEnable() 
     {
         _gameControls.Enable();    
     }
-    private void OnDisable() 
+    public void OnDisable() 
     {
         _gameControls.Disable();   
     }

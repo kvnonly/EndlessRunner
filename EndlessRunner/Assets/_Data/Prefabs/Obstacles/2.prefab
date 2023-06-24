@@ -11,10 +11,10 @@ GameObject:
   - component: {fileID: 6519070844627569512}
   - component: {fileID: 5060213751750365007}
   - component: {fileID: 4711481522867270324}
-  - component: {fileID: 399003541337781906}
+  - component: {fileID: 4919115208684425673}
   m_Layer: 0
   m_Name: Concrete barrier
-  m_TagString: Untagged
+  m_TagString: Obstacles
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -84,20 +84,19 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &399003541337781906
-MeshCollider:
+--- !u!65 &4919115208684425673
+BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 351473406571218301}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: -2658374115349480148, guid: 65faa96893e15434980e6a86726c1def, type: 3}
+  serializedVersion: 2
+  m_Size: {x: 1.000832, y: 0.52938694, z: 0.4710724}
+  m_Center: {x: 0, y: 0.26469347, z: 0}
 --- !u!1 &928822940355543281
 GameObject:
   m_ObjectHideFlags: 0
@@ -109,10 +108,10 @@ GameObject:
   - component: {fileID: 4772908911212872366}
   - component: {fileID: 8389659025695899610}
   - component: {fileID: 6440931419495355952}
-  - component: {fileID: 2681103121034359878}
+  - component: {fileID: 6706615691462619217}
   m_Layer: 0
   m_Name: Concrete barrier End
-  m_TagString: Untagged
+  m_TagString: Obstacles
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -182,20 +181,19 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &2681103121034359878
-MeshCollider:
+--- !u!65 &6706615691462619217
+BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 928822940355543281}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: -3636267903449859218, guid: 4b168db826d206a46a85a24df1605b67, type: 3}
+  serializedVersion: 2
+  m_Size: {x: 0.95163405, y: 0.52938575, z: 0.47107133}
+  m_Center: {x: -0.09602098, y: 0.26469287, z: 0}
 --- !u!1 &1194681376394872213
 GameObject:
   m_ObjectHideFlags: 0
@@ -207,10 +205,10 @@ GameObject:
   - component: {fileID: 6880298876955981645}
   - component: {fileID: 4557596470410090888}
   - component: {fileID: 4250295617657920981}
-  - component: {fileID: 2429319762362004116}
+  - component: {fileID: 5420272687824627965}
   m_Layer: 0
   m_Name: Concrete barrier End (1)
-  m_TagString: Untagged
+  m_TagString: Obstacles
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -280,20 +278,19 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &2429319762362004116
-MeshCollider:
+--- !u!65 &5420272687824627965
+BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1194681376394872213}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: -3636267903449859218, guid: 4b168db826d206a46a85a24df1605b67, type: 3}
+  serializedVersion: 2
+  m_Size: {x: 0.95163405, y: 0.52938575, z: 0.47107133}
+  m_Center: {x: -0.09602098, y: 0.26469287, z: 0}
 --- !u!1 &3702218605559678840
 GameObject:
   m_ObjectHideFlags: 0
@@ -305,10 +302,10 @@ GameObject:
   - component: {fileID: 8499404212617201633}
   - component: {fileID: 5419102941846198960}
   - component: {fileID: 1154352874965858044}
-  - component: {fileID: 1061363390405124828}
+  - component: {fileID: 7469425948428971471}
   m_Layer: 0
   m_Name: Concrete barrier (1)
-  m_TagString: Untagged
+  m_TagString: Obstacles
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -378,20 +375,19 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &1061363390405124828
-MeshCollider:
+--- !u!65 &7469425948428971471
+BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3702218605559678840}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: -2658374115349480148, guid: 65faa96893e15434980e6a86726c1def, type: 3}
+  serializedVersion: 2
+  m_Size: {x: 1.000832, y: 0.52938694, z: 0.4710724}
+  m_Center: {x: 0, y: 0.26469347, z: 0}
 --- !u!1 &4027381843496290506
 GameObject:
   m_ObjectHideFlags: 0
@@ -454,10 +450,10 @@ GameObject:
   - component: {fileID: 526273268305581512}
   - component: {fileID: 2763996855855756351}
   - component: {fileID: 7721042198434493249}
-  - component: {fileID: 5070689078438741473}
+  - component: {fileID: 4822523962116529502}
   m_Layer: 0
   m_Name: Short barrier
-  m_TagString: Untagged
+  m_TagString: Obstacles
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -527,17 +523,16 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &5070689078438741473
-MeshCollider:
+--- !u!65 &4822523962116529502
+BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7971519075986665699}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: -1653860669104874902, guid: 89404c3dc4f490b48a0018f721969b83, type: 3}
+  serializedVersion: 2
+  m_Size: {x: 1.0003648, y: 0.97038645, z: 0.39416367}
+  m_Center: {x: 0, y: 0.48970297, z: 0}

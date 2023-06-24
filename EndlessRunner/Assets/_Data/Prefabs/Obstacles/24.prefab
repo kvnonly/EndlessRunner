@@ -510,10 +510,10 @@ GameObject:
   - component: {fileID: 7452157697345827942}
   - component: {fileID: 1176553881845552661}
   - component: {fileID: 2799629682694227556}
-  - component: {fileID: 923559290251213241}
+  - component: {fileID: 348088776921430144}
   m_Layer: 0
   m_Name: SuvV1
-  m_TagString: Untagged
+  m_TagString: Obstacles
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -589,8 +589,8 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &923559290251213241
-MeshCollider:
+--- !u!65 &348088776921430144
+BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -599,10 +599,9 @@ MeshCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: -2614783277559466408, guid: e075817dde471bc49b81d292d86c5b21, type: 3}
+  serializedVersion: 2
+  m_Size: {x: 2.3194482, y: 0.6735468, z: 0.7704259}
+  m_Center: {x: -0.19798817, y: 0.45733362, z: -0.000000013629604}
 --- !u!1 &8395625914269629339
 GameObject:
   m_ObjectHideFlags: 0
@@ -701,7 +700,7 @@ GameObject:
   - component: {fileID: 8108258530271760841}
   m_Layer: 0
   m_Name: Benche
-  m_TagString: Untagged
+  m_TagString: Obstacles
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -779,7 +778,7 @@ BoxCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 9144819728913957260}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 0.23592633, y: 1.1259085, z: 2.503994}
@@ -792,7 +791,7 @@ BoxCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 9144819728913957260}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 0.6346142, y: 0.51995444, z: 2.503994}

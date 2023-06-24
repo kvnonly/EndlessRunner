@@ -9,6 +9,7 @@ TagManager:
   - Note 1
   - Note 2
   - Note 3
+  - Obstacles
   layers:
   - Default
   - TransparentFX

@@ -5,87 +5,90 @@ using UnityEngine;
 public class ObstaclesSpawner : MonoBehaviour
 {
     [Header("Obstacles Spawn")]
-    [Space(15)]
-    [SerializeField] private List<GameObject> _obstacles;
-    [SerializeField] private List<GameObject> _coinPrefabs;
-    [SerializeField] private Transform _coinsParentObject;
-    [SerializeField] private GameObject _obstacleParentObject;
-    [SerializeField] private float _obstacleSpacing;
-    [SerializeField] private float _lastSpawnZ;
-    [SerializeField] private int _spawnInterval;
-    [SerializeField] private int _spawnAmount;
+    [SerializeField] private List<GameObject> _obstacles; // Lista de obstáculos disponíveis para spawnar
+    [SerializeField] private List<GameObject> _coinPrefabs; // Lista de prefabs de moedas disponíveis
+    [SerializeField] private Transform _coinsParentObject; // Objeto pai das moedas instanciadas
+    [SerializeField] private GameObject _obstacleParentObject; // Objeto pai dos obstáculos instanciados
+    [SerializeField] private float _obstacleSpacing; // Espaçamento entre os obstáculos
+    [SerializeField] private float _lastSpawnZ; // Posição Z do último obstáculo spawnado
+    [SerializeField] private float _spawnDistance; // Distância entre cada spawn de obstáculo
+    [SerializeField] private float _spawnInterval; // Intervalo de tempo entre cada spawn de obstáculo
+    [SerializeField] private int _initialObstacleCount; // Quantidade inicial de obstáculos
+    [SerializeField] private int _additionalObstacleCount; // Quantidade de obstáculos adicionais a serem instanciados durante o jogo
 
     [Header("Obstacles Positions")]
-    [Space(15)]
-    [SerializeField] private float _xPosition;
-    [SerializeField] private float _yPosition;
+    [SerializeField] private float _xPosition; // Posição X dos obstáculos
+    [SerializeField] private float _yPosition; // Posição Y dos obstáculos
 
     [Header("Components")]
-    [Space(15)]
-    [SerializeField] private GameObject _player;
-    private List<GameObject> _spawnedObstacles;
-    private List<GameObject> _spawnedCoins;
+    [SerializeField] private GameObject _player; // Referência ao objeto do jogador
+    private List<GameObject> _spawnedObstacles; // Lista dos obstáculos spawnados
+    private List<GameObject> _spawnedCoins; // Lista das moedas spawnadas
 
-    [Header("Destruction Parameters")]
-    [Space(15)]
-    [SerializeField] private float _safeZone;
-    [SerializeField] private Transform _startPoint;
-    [SerializeField] private float _distanceToDestroy;
-    [SerializeField] private float _distanceToDestroyCoins;
+    private float _playerZPos; // Posição Z do jogador
+    private float _nextSpawnTime; // Próximo momento para spawnar um obstáculo
+    private int _obstacleCount; // Contador de obstáculos já instanciados durante o jogo
 
-    private float _playerZPos;
+    private const float DestroyOffset = 10f; // Distância adicional para destruir os objetos
 
     private void Start()
     {
-        _spawnedObstacles = new List<GameObject>();
-        _spawnedCoins = new List<GameObject>();
+        _spawnedObstacles = new List<GameObject>(); // Inicializa a lista de obstáculos spawnados
+        _spawnedCoins = new List<GameObject>(); // Inicializa a lista de moedas spawnadas
+        _nextSpawnTime = _spawnInterval; // Define o próximo momento para spawnar um obstáculo
 
-        SpawnObstacles();
+        SpawnInitialObstacles(); // Realiza o spawn dos obstáculos iniciais
     }
 
     private void Update()
     {
-        _playerZPos = _player.transform.position.z;
+        _playerZPos = _player.transform.position.z; // Atualiza a posição Z do jogador
 
-        if (_playerZPos > _startPoint.position.z + _safeZone)
+        // Verifica se ainda é necessário spawnar obstáculos e se já é o momento para isso
+        if (_obstacleCount < _initialObstacleCount + _additionalObstacleCount && Time.time >= _nextSpawnTime)
         {
-            DestroyPreviousObstacles();
-            DestroyPreviousCoins();
-            SpawnObstacles();
+            SpawnObstacle(); // Realiza o spawn de um obstáculo
+            _nextSpawnTime += _spawnInterval; // Atualiza o próximo momento para spawnar um obstáculo
+        }
+
+        DestroyPreviousObstacles(); // Destroi os obstáculos anteriores
+        DestroyPreviousCoins(); // Destroi as moedas anteriores
+    }
+
+    private void SpawnInitialObstacles()
+    {
+        for (int i = 0; i < _initialObstacleCount; i++)
+        {
+            SpawnObstacle(); // Realiza o spawn de um obstáculo
         }
     }
 
-    private void SpawnObstacles()
+    private void SpawnObstacle()
     {
-        _lastSpawnZ += _spawnInterval;
+        _lastSpawnZ += _obstacleSpacing; // Atualiza a posição Z do último obstáculo spawnado
 
-        for (int i = 0; i < _spawnAmount; i++)
+        GameObject obstacle = _obstacles[Random.Range(0, _obstacles.Count)]; // Seleciona aleatoriamente um obstáculo da lista
+        Vector3 spawnPosition = new Vector3(_xPosition, _yPosition, _lastSpawnZ); // Calcula a posição de spawn do obstáculo
+
+        GameObject spawnedObstacle = Instantiate(obstacle, spawnPosition, obstacle.transform.rotation); // Instancia o obstáculo na posição de spawn
+        spawnedObstacle.transform.parent = _obstacleParentObject.transform; // Define o objeto pai do obstáculo
+
+        _spawnedObstacles.Add(spawnedObstacle); // Adiciona o obstáculo à lista de obstáculos spawnados
+        _obstacleCount++; // Incrementa o contador de obstáculos
+
+        ObstacleCollectableSpace space = spawnedObstacle.GetComponent<ObstacleCollectableSpace>(); // Obtém o componente ObstacleCollectableSpace do obstáculo
+        if (space != null && Random.Range(0, 2) == 1) // Verifica se o obstáculo possui um espaço para coletáveis e se um número aleatório é igual a 1
         {
-            if (Random.Range(0, 4) == 0)
+            GameObject coinPrefab = _coinPrefabs[Random.Range(0, _coinPrefabs.Count)]; // Seleciona aleatoriamente um prefab de moeda da lista
+
+            float coinLane = space.GetLane(); // Obtém a posição da pista onde a moeda será spawnada a partir do componente ObstacleCollectableSpace
+            if (coinLane != -20f) // Verifica se a moeda não será spawnada fora da pista (-20f é um valor de marcação para ausência de pista)
             {
-                GameObject obstacle = _obstacles[Random.Range(0, _obstacles.Count)];
-                Vector3 spawnPosition = new Vector3(_xPosition, _yPosition, _lastSpawnZ + (i * _obstacleSpacing));
+                Vector3 coinPosition = new Vector3(coinLane, 0, spawnPosition.z + 1.5f); // Calcula a posição de spawn da moeda
+                GameObject coin = Instantiate(coinPrefab, coinPosition, coinPrefab.transform.rotation); // Instancia a moeda na posição de spawn
+                coin.transform.parent = _coinsParentObject; // Define o objeto pai da moeda
 
-                GameObject spawnedObstacle = Instantiate(obstacle, spawnPosition, obstacle.transform.rotation);
-                spawnedObstacle.transform.parent = _obstacleParentObject.transform;
-
-                _spawnedObstacles.Add(spawnedObstacle);
-
-                ObstacleCollectableSpace space = spawnedObstacle.GetComponent<ObstacleCollectableSpace>();
-                if (space != null && Random.Range(0, 2) == 1)
-                {
-                    GameObject coinPrefab = _coinPrefabs[Random.Range(0, _coinPrefabs.Count)];
-
-                    float coinLane = space.GetLane();
-                    if (coinLane != -20f)
-                    {
-                        Vector3 coinPosition = new Vector3(coinLane, 0, spawnPosition.z + 1.5f);
-                        GameObject coin = Instantiate(coinPrefab, coinPosition, coinPrefab.transform.rotation);
-                        coin.transform.parent = _coinsParentObject;
-
-                        _spawnedCoins.Add(coin);
-                    }
-                }
+                _spawnedCoins.Add(coin); // Adiciona a moeda à lista de moedas spawnadas
             }
         }
     }
@@ -94,13 +97,13 @@ public class ObstaclesSpawner : MonoBehaviour
     {
         for (int i = _spawnedCoins.Count - 1; i >= 0; i--)
         {
-            GameObject coin = _spawnedCoins[i];
-            float coinZPos = coin.transform.position.z;
+            GameObject coin = _spawnedCoins[i]; // Obtém a moeda da lista
+            float coinZPos = coin.transform.position.z; // Obtém a posição Z da moeda
 
-            if (coinZPos + _distanceToDestroyCoins < _playerZPos)
+            if (coinZPos + DestroyOffset < _playerZPos) // Verifica se a moeda está atrás do jogador além da distância de destruição
             {
-                _spawnedCoins.RemoveAt(i);
-                Destroy(coin);
+                _spawnedCoins.RemoveAt(i); // Remove a moeda da lista
+                Destroy(coin); // Destroi a moeda
             }
         }
     }
@@ -109,13 +112,13 @@ public class ObstaclesSpawner : MonoBehaviour
     {
         for (int i = _spawnedObstacles.Count - 1; i >= 0; i--)
         {
-            GameObject obstacle = _spawnedObstacles[i];
-            float obstacleZPos = obstacle.transform.position.z;
+            GameObject obstacle = _spawnedObstacles[i]; // Obtém o obstáculo da lista
+            float obstacleZPos = obstacle.transform.position.z; // Obtém a posição Z do obstáculo
 
-            if (obstacleZPos + _distanceToDestroy < _playerZPos)
+            if (obstacleZPos + DestroyOffset < _playerZPos) // Verifica se o obstáculo está atrás do jogador além da distância de destruição
             {
-                _spawnedObstacles.RemoveAt(i);
-                Destroy(obstacle);
+                _spawnedObstacles.RemoveAt(i); // Remove o obstáculo da lista
+                Destroy(obstacle); // Destroi o obstáculo
             }
         }
     }

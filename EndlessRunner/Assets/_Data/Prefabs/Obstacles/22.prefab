@@ -11,10 +11,10 @@ GameObject:
   - component: {fileID: 4452221331936539965}
   - component: {fileID: 9113200681538799141}
   - component: {fileID: 2014649357146927412}
-  - component: {fileID: 3875789525554609275}
+  - component: {fileID: 1656859348614327499}
   m_Layer: 0
   m_Name: Concrete barrier
-  m_TagString: Untagged
+  m_TagString: Obstacles
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -84,20 +84,19 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &3875789525554609275
-MeshCollider:
+--- !u!65 &1656859348614327499
+BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 95430596960477844}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: -2658374115349480148, guid: 65faa96893e15434980e6a86726c1def, type: 3}
+  serializedVersion: 2
+  m_Size: {x: 1.000832, y: 0.52938694, z: 0.4710724}
+  m_Center: {x: 0, y: 0.26469347, z: 0}
 --- !u!1 &206319710289569871
 GameObject:
   m_ObjectHideFlags: 0
@@ -168,7 +167,7 @@ GameObject:
   - component: {fileID: 5527098717836622042}
   m_Layer: 0
   m_Name: BarrierFence2 (1)
-  m_TagString: Untagged
+  m_TagString: Obstacles
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -246,7 +245,7 @@ BoxCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3607362175715827292}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 0.11521822, y: 0.68021035, z: 3.4617612}
@@ -259,7 +258,7 @@ BoxCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3607362175715827292}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 0.14107612, y: 0.8702824, z: 0.079088055}
@@ -272,7 +271,7 @@ BoxCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3607362175715827292}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 0.37105224, y: 0.5685974, z: 0.09031448}
@@ -322,10 +321,10 @@ GameObject:
   - component: {fileID: 1007347001715476956}
   - component: {fileID: 2849031990212689631}
   - component: {fileID: 5331770023751348444}
-  - component: {fileID: 1799857306990074473}
+  - component: {fileID: 4081322203695099968}
   m_Layer: 0
   m_Name: Concrete barrier End (1)
-  m_TagString: Untagged
+  m_TagString: Obstacles
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -395,20 +394,19 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &1799857306990074473
-MeshCollider:
+--- !u!65 &4081322203695099968
+BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6171921281907299562}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: -3636267903449859218, guid: 4b168db826d206a46a85a24df1605b67, type: 3}
+  serializedVersion: 2
+  m_Size: {x: 0.95163405, y: 0.52938575, z: 0.47107133}
+  m_Center: {x: -0.09602098, y: 0.26469287, z: 0}
 --- !u!1 &6223616666893229580
 GameObject:
   m_ObjectHideFlags: 0
@@ -420,10 +418,10 @@ GameObject:
   - component: {fileID: 1260885661200927204}
   - component: {fileID: 3561762795119848251}
   - component: {fileID: 5496334338419464816}
-  - component: {fileID: 2204161070152367050}
+  - component: {fileID: 7887517439892639632}
   m_Layer: 0
   m_Name: Concrete barrier End
-  m_TagString: Untagged
+  m_TagString: Obstacles
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -493,20 +491,19 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &2204161070152367050
-MeshCollider:
+--- !u!65 &7887517439892639632
+BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6223616666893229580}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: -3636267903449859218, guid: 4b168db826d206a46a85a24df1605b67, type: 3}
+  serializedVersion: 2
+  m_Size: {x: 0.95163405, y: 0.52938575, z: 0.47107133}
+  m_Center: {x: -0.09602098, y: 0.26469287, z: 0}
 --- !u!1 &8485332827117682968
 GameObject:
   m_ObjectHideFlags: 0
@@ -523,7 +520,7 @@ GameObject:
   - component: {fileID: 652224999723727612}
   m_Layer: 0
   m_Name: BarrierFence2
-  m_TagString: Untagged
+  m_TagString: Obstacles
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -601,7 +598,7 @@ BoxCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8485332827117682968}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 0.11521822, y: 0.68021035, z: 3.4617612}
@@ -614,7 +611,7 @@ BoxCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8485332827117682968}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 0.14107612, y: 0.8702824, z: 0.079088055}
@@ -627,7 +624,7 @@ BoxCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8485332827117682968}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 0.37105224, y: 0.5685974, z: 0.09031448}
@@ -643,10 +640,10 @@ GameObject:
   - component: {fileID: 8646883820192604161}
   - component: {fileID: 4907667964977557348}
   - component: {fileID: 2900920348359309710}
-  - component: {fileID: 9041957747339561582}
+  - component: {fileID: 8698824933726829816}
   m_Layer: 0
   m_Name: Concrete barrier (1)
-  m_TagString: Untagged
+  m_TagString: Obstacles
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -716,20 +713,19 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &9041957747339561582
-MeshCollider:
+--- !u!65 &8698824933726829816
+BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 9100042833645733691}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: -2658374115349480148, guid: 65faa96893e15434980e6a86726c1def, type: 3}
+  serializedVersion: 2
+  m_Size: {x: 1.000832, y: 0.52938694, z: 0.4710724}
+  m_Center: {x: 0, y: 0.26469347, z: 0}
 --- !u!1001 &608708446077538687
 PrefabInstance:
   m_ObjectHideFlags: 0

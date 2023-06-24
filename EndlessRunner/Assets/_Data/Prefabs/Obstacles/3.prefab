@@ -95,10 +95,10 @@ GameObject:
   - component: {fileID: 1611036990088169337}
   - component: {fileID: 6388733478193144057}
   - component: {fileID: 1595498832232171406}
-  - component: {fileID: 2070945308022852687}
+  - component: {fileID: 7207112532369648449}
   m_Layer: 0
   m_Name: Short barrier (1)
-  m_TagString: Untagged
+  m_TagString: Obstacles
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -168,20 +168,19 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &2070945308022852687
-MeshCollider:
+--- !u!65 &7207112532369648449
+BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4366170058719940827}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: -1653860669104874902, guid: 89404c3dc4f490b48a0018f721969b83, type: 3}
+  serializedVersion: 2
+  m_Size: {x: 1.0003648, y: 0.97038645, z: 0.39416367}
+  m_Center: {x: 0, y: 0.48970297, z: 0}
 --- !u!1 &5429718665582237569
 GameObject:
   m_ObjectHideFlags: 0
@@ -193,10 +192,10 @@ GameObject:
   - component: {fileID: 9037909029059380788}
   - component: {fileID: 2288684202169707521}
   - component: {fileID: 8967816195431181324}
-  - component: {fileID: 8412181410660845406}
+  - component: {fileID: 4055738996730282781}
   m_Layer: 0
   m_Name: Short barrier
-  m_TagString: Untagged
+  m_TagString: Obstacles
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -266,20 +265,19 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &8412181410660845406
-MeshCollider:
+--- !u!65 &4055738996730282781
+BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5429718665582237569}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: -1653860669104874902, guid: 89404c3dc4f490b48a0018f721969b83, type: 3}
+  serializedVersion: 2
+  m_Size: {x: 1.0003648, y: 0.97038645, z: 0.39416367}
+  m_Center: {x: 0, y: 0.48970297, z: 0}
 --- !u!1001 &7271158658711622308
 PrefabInstance:
   m_ObjectHideFlags: 0

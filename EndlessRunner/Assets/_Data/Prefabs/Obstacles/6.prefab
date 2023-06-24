@@ -60,10 +60,10 @@ GameObject:
   - component: {fileID: 7718419943708158416}
   - component: {fileID: 1119173773312161978}
   - component: {fileID: 79054584889667363}
-  - component: {fileID: 3289111044579334583}
+  - component: {fileID: 4853458164586878787}
   m_Layer: 0
   m_Name: White barrier
-  m_TagString: Untagged
+  m_TagString: Obstacles
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -133,20 +133,19 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &3289111044579334583
-MeshCollider:
+--- !u!65 &4853458164586878787
+BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2727725939432089749}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 651928363505991179, guid: 4237319dc504b8d42abc47b25e25f29a, type: 3}
+  serializedVersion: 2
+  m_Size: {x: 1.0039738, y: 0.4741435, z: 0.42191428}
+  m_Center: {x: 0, y: 0.23707175, z: 0}
 --- !u!1 &5293381868768427833
 GameObject:
   m_ObjectHideFlags: 0
@@ -158,10 +157,10 @@ GameObject:
   - component: {fileID: 2010061636796785666}
   - component: {fileID: 5336190213968153717}
   - component: {fileID: 2254091052025728385}
-  - component: {fileID: 6515810304267955887}
+  - component: {fileID: 4542934165259757908}
   m_Layer: 0
   m_Name: White barrier (1)
-  m_TagString: Untagged
+  m_TagString: Obstacles
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -231,20 +230,19 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &6515810304267955887
-MeshCollider:
+--- !u!65 &4542934165259757908
+BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5293381868768427833}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 651928363505991179, guid: 4237319dc504b8d42abc47b25e25f29a, type: 3}
+  serializedVersion: 2
+  m_Size: {x: 1.0039738, y: 0.4741435, z: 0.42191428}
+  m_Center: {x: 0, y: 0.23707175, z: 0}
 --- !u!1 &5706106450930596023
 GameObject:
   m_ObjectHideFlags: 0
@@ -256,10 +254,10 @@ GameObject:
   - component: {fileID: 499655861438134783}
   - component: {fileID: 2073026599173783642}
   - component: {fileID: 1887724358687289397}
-  - component: {fileID: 4891816134085493421}
+  - component: {fileID: 5915173491722927741}
   m_Layer: 0
   m_Name: Green Big Dumpster
-  m_TagString: Untagged
+  m_TagString: Obstacles
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -329,17 +327,16 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &4891816134085493421
-MeshCollider:
+--- !u!65 &5915173491722927741
+BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5706106450930596023}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: -3608313693523388834, guid: 5eaf12a17e1b1944e9fd466b65cc8075, type: 3}
+  serializedVersion: 2
+  m_Size: {x: 1.5355312, y: 1.3955736, z: 0.9143279}
+  m_Center: {x: 0, y: 0.6977869, z: -0.047707528}
