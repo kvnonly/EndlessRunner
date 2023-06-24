@@ -15,11 +15,10 @@ MonoBehaviour:
   _life: 0
   _coins: 0
   _maxForwardSpeed: 16
-  _forwardSpeedIncreaseRate: 0.01
+  _forwardSpeedIncreaseRate: 0
   _lateralSpeed: 5
-  _forwardSpeed: 5
-  _jumpForce: 8
-  _jumpDuration: 0.5
+  _forwardSpeed: 0
+  _jumpForce: 15
   _slideSpeedMultiplier: 5
   _slideCollisionHeight: 0.5
   _slideCollisionCenterMultiplier: 0.5

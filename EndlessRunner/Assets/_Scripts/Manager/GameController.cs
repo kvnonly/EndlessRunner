@@ -7,11 +7,10 @@ using TMPro;
 public class GameController : MonoBehaviour
 {
     private GameObject _player;
-
     [SerializeField] private TMP_Text _distance;
     [SerializeField] private TMP_Text _coins;
 
-    private int _playerCoins;
+    private int _playerCoins = 0;
 
     void Start()
     {
@@ -21,7 +20,8 @@ public class GameController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        UpdatingCoinsText();
+        UpdatingDistanceText();
     }
 
     private void UpdatingDistanceText()

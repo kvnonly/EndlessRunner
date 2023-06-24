@@ -42,18 +42,14 @@ public class PlayerAnimatorController : MonoBehaviour
         {
             _slidingFlag = true;
             _player.IsSlidingAnimationFinished = false;
-        }
-
-        if(_slidingFlag)
-        {
-            _slidingFlag = false;
-        }
+        } 
     }
     
 
     public void OnSlidingAnimationFinished()
     {
         _player.IsSlidingAnimationFinished = true;
+        _slidingFlag = false;
     }
 
 }

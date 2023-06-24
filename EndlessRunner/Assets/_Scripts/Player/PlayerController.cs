@@ -9,7 +9,6 @@ public class PlayerController : MonoBehaviour
     [Space(15)]
     [SerializeField] private PlayerData _data; // Dados do jogador
     [SerializeField] private InputHandler _inputHandler; // Gerenciador de entrada
-    [SerializeField] private SpawnManager _spawnManager; // Gerenciador de spawn
     private CharacterController _characterController; // Componente CharacterController usado para controlar o personagem
 
     // Verificação de solo e tags
@@ -49,6 +48,7 @@ public class PlayerController : MonoBehaviour
     private bool _isMovingLeft = false; // Flag de movimento para a esquerda
     private bool _isGrounded; // Flag que indica se o personagem está no chão
     private bool _isJumping = false;
+    private bool _isMovingSides;
 
 
     //GET e SET Methods
@@ -69,7 +69,7 @@ public class PlayerController : MonoBehaviour
         HandleGravity(); // Método para lidar com a gravidade
         Jump(); // Método para fazer o personagem pular
         _data.UpdatingSpeed(); //Aumenta a velocidade gradativamente
-        Walk(); // Método para mover o personagem para frente
+        WalkVerify(); // Método para mover o personagem para frente
     }
 
     #region Player Action Methods
@@ -93,57 +93,68 @@ public class PlayerController : MonoBehaviour
         _characterController.height = originalSize.y;
     }
 
-    private void Walk()
+    private void WalkVerify()
     {
-        if (_inputHandler.RightSide)
-        {
-            if (!_isMovingRight && _currentLaneIndex < _numLanes - 1)
-            {
-                _currentLaneIndex++;
-                _isMovingRight = true;
-                _isMovingLeft = false;
-            }
-        }
-        else if (_inputHandler.LeftSide)
-        {
-            if (!_isMovingLeft && _currentLaneIndex > 0)
-            {
-                _currentLaneIndex--;
-                _isMovingLeft = true;
-                _isMovingRight = false;
-            }
-        }
-        else
-        {
-            _isMovingRight = false;
-            _isMovingLeft = false;
-        }
-
-        // Calcula a posição alvo do personagem considerando o movimento para frente
-        _targetPosition.z = transform.position.z + transform.forward.z * _data.ForwardSpeed * Time.deltaTime;
-
-        // Calcula a nova posição X com base no índice da pista e na largura das ruas
-        float targetX = 0f;
-        if (_currentLaneIndex == 0)
-        {
-            targetX = _leftRoadCenter;
-        }
-        else if (_currentLaneIndex == _numLanes - 1)
-        {
-            targetX = _rightRoadCenter;
-        }
-        else
-        {
-            targetX = _middleRoadCenter + (_currentLaneIndex - 1) * _roadWidth;
-        }
-
-        _targetPosition.x = Mathf.Lerp(transform.position.x, targetX, _data.LateralSpeed * Time.deltaTime);
-
-        _targetPosition.y = _velocityY;
-         
         
-        // Move o personagem para a posição alvo utilizando o CharacterController
-        _characterController.Move(_targetPosition - transform.position);
+        if (_inputHandler.XWalkInput > 0 && transform.position.x < 8.5f && !_isMovingSides)
+        {
+            _isMovingSides = true;
+            StartCoroutine(RightMove());
+        }
+
+        /*
+        horizontalDirection menor que zero = tecla pressionada para esquerda
+        transform.position.x maior que -5 = player não está na faixa da esquerda
+        !_isMovingSides = não está se movendo para os lados
+        */
+        else if (_inputHandler.XWalkInput < 0 && transform.position.x > 1.5f && ! _isMovingSides)
+        {
+            _isMovingSides = true; // define _isMovingSides como true para que não seja possivel realizar outro movimento até que o atual termine
+            StartCoroutine(LeftMove());
+        }
+    }
+    IEnumerator LeftMove() // coroutine que move o player para esquerda
+    {
+
+        Vector3 target; // cria o vector3 local "target"
+        target.x = transform.position.x - 8; // armazena o valor da posição X do player -8 como o target / valor "-8" aqui tem que ser substituído pela distância das tracks do seu jogo
+
+        float difference = target.x - _characterController.transform.position.x; // cria a variavel "difference" sendo a diferença entre a posição do player e a posição alvo
+
+        while (difference <= 0)
+        {
+            _characterController.Move(Vector3.left * Time.deltaTime * _data.LateralSpeed); // character controller move o personagem na direção do vector3.left
+            difference = target.x - transform.position.x; // calcula a diferença de posição depois de mover o player
+           
+            //Debug.Log(difference);
+
+            yield return null;
+        }
+
+        _isMovingSides = false; // define _isMovingSides como falsa para que seja possivel se mover para os lados novamente
+
+    }
+    
+    IEnumerator RightMove() // coroutine que move o player para a direita
+    {
+
+        Vector3 target;
+        target.x = transform.position.x + 8;
+
+        float difference = target.x - _characterController.transform.position.x;
+
+        while (difference >= 0)
+        {
+            _characterController.Move(Vector3.right * Time.deltaTime * _data.LateralSpeed); // character controller move o personagem na direção do vector3.right
+            difference = target.x - transform.position.x; // calcula a diferença de posição depois de mover o player
+
+            //Debug.Log(difference);
+
+            yield return null;
+        }
+
+        _isMovingSides = false;  // define _isMovingSides como falsa para que seja possivel se mover para os lados novamente
+
     }
 
     private void HandleGravity()
@@ -200,18 +211,6 @@ public class PlayerController : MonoBehaviour
     private void Death()
     {
         // Implemente a lógica para a morte do personagem.
-    }
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.CompareTag("RoadCollision"))
-        {
-            // Colisão com a tag correta ocorreu!
-            _spawnManager.SpawnTriggerEntered();
-        }
-        else
-        {
-            // Colisão com uma tag diferente ocorreu
-        }
     }
 
     #endregion

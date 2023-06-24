@@ -55,21 +55,6 @@ public class InputHandler : MonoBehaviour
         //Quando a ação de pressionar ou clicar no botão será definido abaixo um valor para a varivavel criada
         _walkInput = ctx.ReadValue<Vector2>();
 
-        if(_walkInput.x < 0)
-        {
-            _rightSide = false;
-            _leftSide = true;
-        }
-        else if(_walkInput.x > 0)
-        {
-            _leftSide = false;
-            _rightSide = true;
-        }
-        else if(_walkInput.x == 0)
-        {
-            _leftSide = false;
-            _rightSide = false;
-        }
     }
 
     public void OnJump(InputAction.CallbackContext ctx)

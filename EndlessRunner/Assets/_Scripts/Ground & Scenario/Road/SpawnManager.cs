@@ -6,6 +6,7 @@ public class SpawnManager : MonoBehaviour
 {
     private SpawnRoad _roadSpawn;
     private PlotSpawner _plotSpawn;
+    private ObstaclesSpawner _obstacleSpawn;
     [SerializeField] private int _totalAmount = 16;
 
     void Start()
